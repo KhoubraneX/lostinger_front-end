@@ -15,6 +15,8 @@ export default function Gallery({galleryData , setGalleryData}) {
     setGalleryData(galleryData);
   };
 
+  let { dataImg } = galleryData
+
   return (
     <ImageUploading
       multiple
@@ -31,18 +33,18 @@ export default function Gallery({galleryData , setGalleryData}) {
                 <div className="upload-files">
                   <div className="body" id="drop" >
                     <div className='overDrop'
-                      style={isDragging && !imageList[0] ? { outlineColor: 'black' } : imageList[0] ? { outline: 'none' } : undefined}
-                      onClick={!imageList[0] ? onImageUpload : undefined}
+                      style={isDragging && !dataImg["value"] ? { outlineColor: 'black' } : dataImg["value"] ? { outline: 'none' } : undefined}
+                      onClick={!dataImg["value"] ? onImageUpload : undefined}
                       {...dragProps} 
                       >
 
-                      {imageList[0] && imageList.map((image, index) => (
-                        <div key={index} className="image-item" style={{backgroundImage:`url(${image['data_url']})`}}>
+                      {dataImg["value"] &&
+                        <div key={0} className="image-item" style={{backgroundImage:`url(${dataImg["value"]["data_url"]})`}}>
                         </div>
-                      ))}
+                      }
 
                     </div>
-                    {!imageList[0] && <p className="pointer-none">
+                    {!dataImg["value"] && <p className="pointer-none">
                       <b>Drag and drop</b> files here <br /> or{" "}
                       <Link onClick={onImageUpload} to="" id="triggerFile">
                         browse
@@ -50,7 +52,7 @@ export default function Gallery({galleryData , setGalleryData}) {
                       to begin the upload
                     </p>}
 
-                    {imageList[0] &&
+                    {dataImg["value"] &&
                     <div className='btn-even pt-4 row'>
                       <button className='btn-remove' onClick={() => onImageRemove(0)}><i className="fas fa-times"></i></button>
                       <button className='btn-update' onClick={() => onImageUpdate(0)}><i className="fas fa-upload"></i></button>

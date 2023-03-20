@@ -39,7 +39,7 @@ export default function Form() {
         zipCode : { value : "" , valid : false , errorMsg : ""} ,
     })
 
-    // location step (seconde step)
+    // image step (third step)
     let [galleryData ,  setGalleryData] = useState({dataImg : {value : null}})
 
     // handel increment clicks
@@ -112,15 +112,9 @@ export default function Form() {
                 currentData[dataValue].errorMsg = "";
             }
         }
-
-        if (stepValid === true) {
-            let currentDataSteps = [...steps];
-            currentDataSteps[activeStep].completd = true;
-            setSteps(currentDataSteps);
-            // send to next step
-            handelStepsInc()
-        }
         setOverviewData(currentData);
+
+        return stepValid;
     }
 
     let handelLocation_Submit = () => {
@@ -139,65 +133,79 @@ export default function Form() {
                 currentData[dataValue].errorMsg = "";
             }
         }
-
-        if (stepValid === true) {
-            let currentDataSteps = [...steps];
-            currentDataSteps[activeStep].completd = true;
-            setSteps(currentDataSteps);
-            // send to next step
-            handelStepsInc()
-        }
         setLocationData(currentData);
+
+        return stepValid;
     }
 
     let handelGallery_Submit = () => {
-
         let stepValid = true;
-        if (stepValid === true) {
-            let currentDataSteps = [...steps];
-            currentDataSteps[activeStep].completd = true;
-            setSteps(currentDataSteps);
-            // send to next step
-            handelStepsInc()
-        }
+        return stepValid;
     }
 
-    useEffect(() => {
-        console.log(steps);
-    })
 
     let handelPublish_Submit = () => {
         let dataForm = {...overviewData , ...locationData , ...galleryData}
         let dataFromSend = {}
-
-        let { log } = console
 
         for (let Prop in dataForm) {
             let { value } = dataForm[Prop] ;
             dataFromSend[Prop] = value
         }
 
-        log(dataFromSend)
+        alert("secusess")
+        console.log(dataFromSend)
     }
 
     let handelSubmitStep = () => {
         if (steps[activeStep].stepName === "overview") {
-            handelOver_Submit()
+            if (handelOver_Submit() === true) {
+                let currentDataSteps = [...steps];
+                currentDataSteps[activeStep].completd = true;
+                setSteps(currentDataSteps);
+                // send to next step
+                handelStepsInc()
+            }
         }
         if (steps[activeStep].stepName === "location") {
-            handelLocation_Submit()
+            if (handelLocation_Submit() === true) {
+                let currentDataSteps = [...steps];
+                currentDataSteps[activeStep].completd = true;
+                setSteps(currentDataSteps);
+                // send to next step
+                handelStepsInc()
+            }
         }
         if (steps[activeStep].stepName === "gallery") {
-            handelGallery_Submit()
+            if (handelGallery_Submit() === true) {
+                let currentDataSteps = [...steps];
+                currentDataSteps[activeStep].completd = true;
+                setSteps(currentDataSteps);
+                // send to next step
+                handelStepsInc()
+            }
         }
         if (steps[activeStep].stepName === "publish") {
-            handelPublish_Submit()
+            if (handelOver_Submit() === true && handelLocation_Submit() === true && handelGallery_Submit() === true) {
+                handelPublish_Submit()
+            } else {
+                if (!handelOver_Submit()) {
+                    setActiveStep(0)
+                }
+                else if (!handelLocation_Submit()) {
+                    setActiveStep(1)
+                    
+                }
+                else if (!handelGallery_Submit()) {
+                    setActiveStep(2)
+                }
+            }
         }
     }
 
     return (
         <>
-        { loadStatus === true &&
+        {loadStatus === true &&
             <div className="spiner-steps">
                     <div className="spinner-border text-info" role="status">
                         <span className="sr-only">Loading...</span>
