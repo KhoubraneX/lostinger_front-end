@@ -13,6 +13,7 @@ import Blog from './pages/blog';
 import BlogDetails from './pages/blogDetails';
 import Contact from './pages/contact';
 import AddListing from './pages/addListing';
+import Learn from './pages/learn';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
       <Route path='/contact' element={<Contact />} />
       <Route path='/addListing' element={<AddListing />} />
       <Route path='*' element={<PageNotFound />} />
+      <Route path='Learn' element={<Learn />} />
     </Routes>
     <TopButton />
     <Footer />

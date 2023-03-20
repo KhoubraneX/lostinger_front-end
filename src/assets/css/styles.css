@@ -2091,7 +2091,7 @@ footer h3:after {
     top: 26px
 }
 
-.overview-section .form-group label.bolder {
+.form-group label.bolder {
     font-weight: 700;
     text-transform: up;
 }

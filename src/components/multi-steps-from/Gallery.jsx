@@ -3,13 +3,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ImageUploading from 'react-images-uploading';
-export default function Gallery() {
+export default function Gallery({galleryData , setGalleryData}) {
   const [images, setImages] = React.useState([]);
   const maxNumber = 1;
 
   const onChange = (imageList, addUpdateIndex) => {
     // data for submit
     setImages(imageList);
+    let [ data_url ] = imageList
+    galleryData["dataImg"].value = data_url
+    setGalleryData(galleryData);
   };
 
   return (
@@ -29,12 +32,12 @@ export default function Gallery() {
                   <div className="body" id="drop" >
                     <div className='overDrop'
                       style={isDragging && !imageList[0] ? { outlineColor: 'black' } : imageList[0] ? { outline: 'none' } : undefined}
-                      onClick={!imageList[0] && onImageUpload}
-                      {...dragProps} >
+                      onClick={!imageList[0] ? onImageUpload : undefined}
+                      {...dragProps} 
+                      >
 
                       {imageList[0] && imageList.map((image, index) => (
-                        <div key={index} className="image-item">
-                          <img src={image['data_url']} alt="" width="100" />
+                        <div key={index} className="image-item" style={{backgroundImage:`url(${image['data_url']})`}}>
                         </div>
                       ))}
 
@@ -49,8 +52,8 @@ export default function Gallery() {
 
                     {imageList[0] &&
                     <div className='btn-even pt-4 row'>
-                      <button className='btn-remove' onClick={() => onImageRemove(0)}><i class="fas fa-times"></i></button>
-                      <button className='btn-update' onClick={() => onImageUpdate(0)}><i class="fas fa-upload"></i></button>
+                      <button className='btn-remove' onClick={() => onImageRemove(0)}><i className="fas fa-times"></i></button>
+                      <button className='btn-update' onClick={() => onImageUpdate(0)}><i className="fas fa-upload"></i></button>
                     </div>
                     }
 

@@ -1,36 +1,58 @@
-export default function LocationSteps() {
+import Input from "../input";
+
+export default function LocationSteps({locationData , setLocationData}) {
+
+    let handelChange = ({ target }) => {
+        let {value , name} = target
+        let currentData = {...locationData}
+        
+        currentData[name].value = value
+
+        switch (name) {
+            case "zipCode":
+                validateInput(/^\d{5}(?:[-\s]\d{4})?$/, value , name , "The ZIP code you entered is not valid");
+                break;
+
+                default:
+                    let testCheck = value === "" ? false : true
+                    currentData[name].valid = testCheck
+                    currentData[name].errorMsg = testCheck ? "" : "this field is required"
+                    break;
+        }
+
+        setLocationData(currentData)
+    }
+
+    let validateInput = (pattern , value , name , message) => {
+        let currentData = {...locationData}
+        let testCheck = pattern.test(value.trim());
+
+        currentData[name].valid = testCheck
+        currentData[name].errorMsg = testCheck ? "" : message
+    }
+
+    let {place , address , zipCode} = locationData
     return (
         <>
         <div className="row">
             <div className="form-group col-md-4">
+                <label className="bolder">Where Found</label>
                 <select
+                    value={place.value}
+                    onChange={handelChange}
                     className="form-control valid"
-                    id="exampleFormControlSelect2"
-                    aria-invalid="false"
+                    name="place"
                 >
-                    <option  value={0}>Where Found</option>
-                    <option value={1}>Taxi</option>
-                    <option value={2}>Restaurant</option>
+                    <option value="Taxi">Taxi</option>
+                    <option value="Restaurant">Restaurant</option>
                 </select>
             </div>
 
             <div className="form-group col-md-4">
-                <input
-                    type="text"
-                    className="form-control no-margin-bottom padding-10px-tb"
-                    name="Address"
-                    id="exampleInputAddress"
-                    placeholder="Location"
-                />
+                <Input labelname="Location" InputData={address} onhandelChange={handelChange} nameInput="address" typeInput="text"/>
             </div>
             <div className="form-group col-md-4">
-                <input
-                    type="text"
-                    className="form-control no-margin-bottom padding-10px-tb"
-                    name="zibCode"
-                    id="Code"
-                    placeholder="Zip-Code"
-                />
+                <Input labelname="Zip-Code" InputData={zipCode} onhandelChange={handelChange} nameInput="zipCode" typeInput="text" placeholder="(e.g. 12345 or 12345-6789)"/>
             </div>
             <div className="col form-group">
                 <div className="padding-15px-all shadow bg-white">

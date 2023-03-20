@@ -575,10 +575,17 @@ $skin: #4db6ac;
     position: relative;
     max-width: 500px;
     height: 220px;
+    overflow: hidden;
     img {
-      width: 500px;
-      height: 220px;
+      width: 100%;
     }
+  }
+  .image-item {
+    max-width: 500px;
+    height: 220px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 }
 .form-group.col {
