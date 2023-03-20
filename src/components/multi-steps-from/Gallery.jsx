@@ -28,7 +28,7 @@ export default function Gallery({galleryData , setGalleryData}) {
         // write your building UI
         <>
           <div className="form-group col" >
-            <div className="form-group">
+            <div className="form-group w-100">
               <div className="upload">
                 <div className="upload-files">
                   <div className="body" id="drop" >

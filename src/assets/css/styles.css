@@ -1,10 +1,15 @@
 html {
     scroll-behavior: smooth;
+    font-family: 'Open Sans', sans-serif;
 }
 
 :root {
     --main-color: #00838C;
     --main-color-hover: #00a4a6;
+}
+
+.open {
+    display: block !important;
 }
 
 #preloader {
@@ -19,8 +24,6 @@ html {
     display: table;
     text-align: center
 }
-
-
 
 .loader {
     display: table-cell;
@@ -2091,7 +2094,31 @@ footer h3:after {
     top: 26px
 }
 
+.navbar-nav>li.has-sub {
+    padding-right: 13px;
+}
+
+.navbar-nav>li {
+    margin-left: 10px;
+    float: left;
+}
+
+.navbar>ul>li.has-sub>a:after {
+    position: absolute;
+    top: 32px;
+    right: -6px;
+    content: "";
+    border-color: transparent #232323 #232323 transparent;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    display: block;
+    height: 6px;
+    transform: rotate(45deg);
+    transition: border 0.3s ease 0s;
+    width: 6px;
+}
+
 .form-group label.bolder {
-    font-weight: 700;
-    text-transform: up;
+    font-weight: 600;
+    text-transform: capitalize;
 }

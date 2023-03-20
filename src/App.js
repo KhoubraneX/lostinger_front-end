@@ -14,11 +14,25 @@ import BlogDetails from './pages/blogDetails';
 import Contact from './pages/contact';
 import AddListing from './pages/addListing';
 import Learn from './pages/learn';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [isLoading , setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    } , 1000)
+  })
+
   return (
     <>
     <Header />
+    {isLoading && <div id="preloader">
+          <div className="row loader">
+              <div className="loader-icon"></div>
+          </div>
+        </div>}
     <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/home' element={<Home />} />

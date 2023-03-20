@@ -24,7 +24,7 @@ export default function Home() {
                       </div>
                       <div className="col-md-3 my-1">
                         <select className="form-control" id="exampleFormControlSelect1">
-                          <option selected>All cities</option>
+                          <option >All cities</option>
                           <option value={1}>casablanca</option>
                           <option value={2}>rabat</option>
                           <option value={3}>kenitra</option>
@@ -33,7 +33,7 @@ export default function Home() {
                       </div>
                       <div className="col-md-3 my-1">
                         <select className="form-control" id="exampleFormControlSelect2">
-                          <option selected>All Category</option>
+                          <option >All Category</option>
                           <option value={1}>Animals/Pets</option>
                           <option value={2}>Wallet</option>
                           <option value={3}>Watch</option>
@@ -80,7 +80,7 @@ export default function Home() {
                         <i className="ti-server" />
                       </div>
                       <div>
-                        <h5 classtableName="font-size20">Cinema</h5>
+                        <h5 className="font-size20">Cinema</h5>
                         <i className="ti-server font-size32 text-theme-color" />
                       </div>
                     </div>

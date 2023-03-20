@@ -1,5 +1,19 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 export default function Header() {
+
+  const [menuIsOpen , setmenuIsOpen] = useState(false);
+  const [submenuIsOpen , setSubmenuIsOpen] = useState(false);
+
+
+  let handelOpenmenu = () => {
+    setmenuIsOpen(!menuIsOpen)
+  }
+  
+  let handelOpensubmenu = () => {
+    setSubmenuIsOpen(!submenuIsOpen)
+  }
+
   return (
     <>
       {/* start header section */}
@@ -55,12 +69,13 @@ export default function Header() {
                       </Link>
                       {/* end logo */}
                     </div>
-                    <div className="navbar-toggler" />
+                    <div className={`navbar-toggler ${menuIsOpen ? "menu-opened" : ""}`} onClick={handelOpenmenu} />
                     {/* start menu area */}
-                    <ul className="navbar-nav ml-auto" id="nav">
-                      <li>
+                    <ul className={`navbar-nav ml-auto ${menuIsOpen ? "open" : ""}`}  id="nav">
+                      <li className={`has-sub ${submenuIsOpen ? "active" : ""}`}>
+                        <span className={`submenu-button ${submenuIsOpen ? "submenu-opened" : ""}`} onClick={handelOpensubmenu}/>
                         <Link>Pages</Link>
-                        <ul>
+                        <ul className={`${submenuIsOpen ? "open" : ""}`}>
                           <li>
                             <Link to="how-it-works">How It Works</Link>
                           </li>
@@ -72,10 +87,7 @@ export default function Header() {
                           </li>
                         </ul>
                       </li>
-                      
-                      <li className="has-sub">
-                        <span className="submenu-button" />
-                        <span className="submenu-button" />
+                      <li >
                         <Link to="/listing">Listing</Link>
                       </li>
                       <li>
