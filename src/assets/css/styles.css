@@ -22,7 +22,7 @@ html {
     overflow: visible;
     background: #fff;
     display: table;
-    text-align: center
+    text-align: center;
 }
 
 .loader {

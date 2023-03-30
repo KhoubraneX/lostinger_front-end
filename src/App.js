@@ -20,9 +20,9 @@ function App() {
   const [isLoading , setIsLoading] = useState(true);
   
   useEffect(() => {
-    setTimeout(() => {
+    window.addEventListener("load" , (e) => {
       setIsLoading(false)
-    } , 1000)
+    })
   })
 
   return (
@@ -48,7 +48,6 @@ function App() {
       <Route path='/contact' element={<Contact />} />
       <Route path='/addListing' element={<AddListing />} />
       <Route path='*' element={<PageNotFound />} />
-      <Route path='Learn' element={<Learn />} />
     </Routes>
     <TopButton />
     <Footer />
