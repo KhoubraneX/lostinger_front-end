@@ -1,4 +1,4 @@
-import Input from "../input";
+import Input from "./input";
 
 export default function Overview({overviewData , setOverviewData}) {
 

@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../utils/contexts/UserContext";
+
 export default function Header() {
+
+  let user = useUserContext()
 
   const [menuIsOpen , setmenuIsOpen] = useState(false);
   const [submenuIsOpen , setSubmenuIsOpen] = useState(false);
@@ -14,11 +18,15 @@ export default function Header() {
     setSubmenuIsOpen(!submenuIsOpen)
   }
 
+  
   return (
     <>
+
+        
       {/* start header section */}
       <header>
         <div className="navbar-default">
+          
           {/* start top search */}
           <div className="top-search bg-theme">
             <div className="container">
@@ -79,12 +87,6 @@ export default function Header() {
                           <li>
                             <Link to="how-it-works">How It Works</Link>
                           </li>
-                          <li>
-                            <Link to="login">Login</Link>
-                          </li>
-                          <li>
-                            <Link to="registration">Register</Link>
-                          </li>
                         </ul>
                       </li>
                       <li >
@@ -93,12 +95,15 @@ export default function Header() {
                       <li>
                         <Link to="Blog">Blog</Link>
                       </li>
-                      <li>
+                      {user && <li>
                         <Link to="/dashboard">Dashboard</Link>
-                      </li>
-                      <li>
-                        <Link to="/contact">Contact</Link>
-                      </li>
+                      </li>}
+                      {!user && <li>
+                        <Link to="registration">Register</Link>
+                      </li>}
+                      {!user && <li>
+                            <Link to="login">Login</Link>
+                          </li>}
                     </ul>
                     {/* end menu area */}
                     {/* start attribute navigation */}

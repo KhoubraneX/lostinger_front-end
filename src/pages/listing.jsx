@@ -3,16 +3,16 @@ import ListingRight from "../components/lisitng-right";
 import ListingGrid from "../components/listing-grid";
 import PageTitleSection from "../components/pageTitleSection";
 export default function Listing() {
-  const mode = {grid : "grid" , right: "right"}
+  const mode = { grid: "grid", right: "right" };
 
   const [listingMode, setListingMode] = useState(mode.grid);
 
   function handelModeGrid() {
-    setListingMode(mode.grid)
+    setListingMode(mode.grid);
   }
 
   function handelModeRight() {
-    setListingMode(mode.right)
+    setListingMode(mode.right);
   }
 
   return (
@@ -61,7 +61,9 @@ export default function Listing() {
                     <ul className="nav nav-tabs no-border-bottom">
                       <li>
                         <div
-                          className={`modebtn margin-10px-right font-size22 ${listingMode === mode.grid && "active"}`}
+                          className={`modebtn margin-10px-right font-size22 ${
+                            listingMode === mode.grid && "active"
+                          }`}
                           onClick={handelModeGrid}
                         >
                           <i className="fa fa-th-large" />
@@ -69,7 +71,9 @@ export default function Listing() {
                       </li>
                       <li>
                         <div
-                          className={`modebtn font-size22 ${listingMode === mode.right && "active"}`}
+                          className={`modebtn font-size22 ${
+                            listingMode === mode.right && "active"
+                          }`}
                           onClick={handelModeRight}
                         >
                           <i className="fa fa-bars" />
