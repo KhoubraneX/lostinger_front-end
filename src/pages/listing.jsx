@@ -27,7 +27,7 @@ export default function Listing() {
                   Sort By
                 </span>
                 <select className="form-control" id="exampleFormControlSelect1">
-                  <option selected>Default</option>
+                  <option>Default</option>
                   <option value={1}>Date Ascending</option>
                   <option value={2}>Date Descending</option>
                 </select>
@@ -37,7 +37,7 @@ export default function Listing() {
                   Place
                 </span>
                 <select className="form-control" id="exampleFormControlSelect2">
-                  <option selected>Default</option>
+                  <option>Default</option>
                   <option value={1}>street</option>
                   <option value={2}>Cinema</option>
                   <option value={3}>Parks / Gardens</option>
@@ -49,7 +49,7 @@ export default function Listing() {
                   Status
                 </span>
                 <select className="form-control" id="exampleFormControlSelect3">
-                  <option selected>Default</option>
+                  <option>Default</option>
                   <option value={1}>Found</option>
                   <option value={2}>Lost</option>
                 </select>
@@ -246,7 +246,7 @@ export default function Listing() {
                         className="form-control padding-10px-tb"
                         id="exampleFormControlSelect6"
                       >
-                        <option selected>All Categories</option>
+                        <option>All Categories</option>
                         <option value={1}>phone</option>
                         <option value={2}>laptop</option>
                         <option value={3}>card</option>
@@ -300,7 +300,7 @@ export default function Listing() {
                       <span className="irs-grid-pol" style={{ left: "0%" }} />
                       <span
                         className="irs-grid-text js-grid-text-0"
-                        style={{ left: "0%", "margin-left": "-2.3913%" }}
+                        style={{ left: "0%", "marginLeft": "-2.3913%" }}
                       >
                         0
                       </span>
@@ -326,7 +326,7 @@ export default function Listing() {
                         style={{
                           left: "25%",
                           visibility: "visible",
-                          "margin-left": "-4.56522%",
+                          "marginLeft": "-4.56522%",
                         }}
                       >
                         250
@@ -353,7 +353,7 @@ export default function Listing() {
                         style={{
                           left: "50%",
                           visibility: "visible",
-                          "margin-left": "-4.56522%",
+                          "marginLeft": "-4.56522%",
                         }}
                       >
                         500
@@ -380,7 +380,7 @@ export default function Listing() {
                         style={{
                           left: "75%",
                           visibility: "visible",
-                          "margin-left": "-4.56522%",
+                          "marginLeft": "-4.56522%",
                         }}
                       >
                         750
@@ -404,7 +404,7 @@ export default function Listing() {
                       <span className="irs-grid-pol" style={{ left: "100%" }} />
                       <span
                         className="irs-grid-text js-grid-text-4"
-                        style={{ left: "100%", "margin-left": "-6.30435%" }}
+                        style={{ left: "100%", "marginLeft": "-6.30435%" }}
                       >
                         1 000
                       </span>

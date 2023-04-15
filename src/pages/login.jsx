@@ -2,10 +2,11 @@ import { useState } from "react";
 import PageTitleSection from "../components/pageTitleSection";
 import { Link } from "react-router-dom";
 import Input from "../components/ui-components/input";
-import axios from "axios";
+import axios from "../api/axios";
 import Button from "../components/ui-components/button";
 import { decodeToken } from "react-jwt";
 import Spinner from "../components/spinner";
+
 
 
 export default function Login() {
@@ -45,12 +46,12 @@ export default function Login() {
     async function sendRequest() {
       setIsLoad(true)
       try {
-        const response = await axios.post("http://localhost/space/api/auth/login", JSON.stringify({
+        const response = await axios.post("/space/api/auth/login", JSON.stringify({
           email: email.value,
           password: password.value
         }));
-        let { jwt, refresh_token } = response.data
-
+        
+        let { jwt , refresh_token } = response.data
         let user = JSON.stringify(decodeToken(jwt));
         //
         localStorage.setItem("user", user)
