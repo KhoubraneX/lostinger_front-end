@@ -1,6 +1,10 @@
 import Input from "./input";
-
+import { useItemDtContext } from "../../utils/contexts/ItemDetailsContext"
+import { useLayoutEffect } from "react";
 export default function LocationSteps({locationData , setLocationData}) {
+
+    // get dataForm from Context
+    let itemDetails = useItemDtContext()
 
     let handelChange = ({ target }) => {
         let {value , name} = target
@@ -43,8 +47,9 @@ export default function LocationSteps({locationData , setLocationData}) {
                     className="form-control valid"
                     name="place"
                 >
-                    <option value="Taxi">Taxi</option>
-                    <option value="Restaurant">Restaurant</option>
+                {itemDetails && itemDetails.item_place.map((cat) => (
+                    <option key={cat._idPlace} value={cat._idPlace}>{cat.namePlace}</option>
+                ))}
                 </select>
             </div>
 

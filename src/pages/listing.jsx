@@ -2,6 +2,7 @@ import { useState } from "react";
 import ListingRight from "../components/lisitng-right";
 import ListingGrid from "../components/listing-grid";
 import PageTitleSection from "../components/pageTitleSection";
+
 export default function Listing() {
   const mode = { grid: "grid", right: "right" };
 

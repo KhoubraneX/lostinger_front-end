@@ -118,7 +118,7 @@ export default function Header() {
                       <ul className="top-nav-area">
                         <li className="dropdown sm-no-margin-right">
                           <Link
-                            to="addListing"
+                            to={user ? "addListing" : "login"}
                             className="butn listi md-padding-15px-lr sm-no-padding"
                           >
                             <i className="fas fa-plus-circle font-size22 margin-5px-right sm-no-margin-right vertical-align-middle" />{" "}

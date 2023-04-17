@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Pagination from "./pagination";
 import axios from "../api/axios";
 import { refreshToken } from "../utils/authServices";
+import { Link } from "react-router-dom";
 
 export default function ListingGrid() {
   
@@ -13,7 +14,7 @@ export default function ListingGrid() {
 
     let fetchItems = async () => {
       try {
-        let { data } = await axios.get("/space/api/items");
+      let { data } = await axios.get("/space/api/items");
       isMounted && setItems(data);
 
       } catch (error) {
@@ -33,8 +34,8 @@ export default function ListingGrid() {
               <div className="col-lg-9 sm-margin-50px-bottom">
         <div className="row margin-40px-bottom">
           {items && items.map((item) => (
-            <div className="col-md-6 margin-30px-bottom">
-            <a href="listing-details.html" className="card bg-img box-hover cover-background border-0 p-4 h-100" data-background="img/content/7.jpg" style={{"backgroundImage":`url(data:image/jpeg;base64,${item.img})`}}>
+            <div key={item._idItem} className="col-md-6 margin-30px-bottom">
+            <Link to={`listingDetails/${item._idItem}`} className={`card bg-img box-hover cover-background border-0 p-4 h-100 ${item.img == null && "item-img-empty"}`}  style={item.img && {"backgroundImage":`url(data:image/jpeg;base64,${item.img})`}}>
               <div className="mt-auto z-index-9">
                 <h5 className="text-white">{item.nameItem}</h5>
                 <hr className="border-color-light-white" />
@@ -43,7 +44,7 @@ export default function ListingGrid() {
                   <div className="position-relative z-index-9 text-white">{item.nameType}</div>
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
           ))}
         </div>

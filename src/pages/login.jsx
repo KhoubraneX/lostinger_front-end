@@ -52,12 +52,9 @@ export default function Login() {
         }));
         
         let { jwt , refresh_token } = response.data
-        let user = JSON.stringify(decodeToken(jwt));
         //
-        localStorage.setItem("user", user)
         localStorage.setItem("jwt", jwt)
         localStorage.setItem("refresh_token", refresh_token)
-        localStorage.setItem("auth", true)
         //
         setTimeout(() => {
           window.location = '/';
@@ -95,7 +92,7 @@ export default function Login() {
                       </div>
                     </div>
                   </div>
-                  {errorMsg && <p className="text-danger" >{errorMsg}</p>}
+                  {errorMsg && <div class="alert alert-danger" role="alert">{errorMsg}</div>}
                   <div className="row">
                     <div className="col-sm-6 mb-2">
                       <div className="custom-control custom-checkbox text-left">
@@ -107,7 +104,7 @@ export default function Login() {
                       <a href="#!">Forgot password?</a>
                     </div>
                   </div>
-                  <div className="col-md-12 margin-25px-top">
+                  <div className="margin-25px-top">
                     <Button type="submit" className="butn btn-block" text={!isLoad ? "Login" : <Spinner/>}></Button>
                   </div>
                   <div className="col-md-12 text-center margin-25px-top">

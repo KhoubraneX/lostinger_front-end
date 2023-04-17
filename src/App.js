@@ -18,11 +18,11 @@ import {UserProvider} from './utils/contexts/UserContext';
 import {ProtectedRoute , CheckAuthRoute} from './utils/protectedRoute'
 import React, { useEffect, useState } from 'react';
 import { PreLoaderMain } from './components/preLoaderPage';
-import { RefreshToken } from './utils/authServices';
 
 
 function App() {
 
+  const [user , setUser] = useState(null);
   const [isLoading , setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -30,11 +30,10 @@ function App() {
       setIsLoading(false)
     })
   } , [])
-  
 
   return (
     <>
-    <UserProvider>
+    <UserProvider value={user}>
     <Header />
     {isLoading && <PreLoaderMain/>}
       <Routes>
@@ -47,15 +46,15 @@ function App() {
               <Route path='/registration' element={<Register />} />
               <Route path='/signup' element={<Register />} />
         </Route>
-        <Route path='/listing' element={<Listing />} />
-        <Route path='/listingDetails/:id' element={<ListingDetails />} />
-        <Route path='/blogDetails/:id' element={<BlogDetails />} />
-        <Route path='/blog' element={<Blog />} />
-        <Route path='/contact' element={<Contact />} />
         <Route element={<ProtectedRoute/>}>
               <Route path='/addListing' element={ <AddListing />} />
               <Route path='/dashboard' element={ <Dashboard />} />
         </Route>
+        <Route path='/listing' element={<Listing />} ></Route>
+        <Route path='/listing/listingDetails/:id' element={<ListingDetails />} />
+        <Route path='/blogDetails/:id' element={<BlogDetails />} />
+        <Route path='/blog' element={<Blog />} />
+        <Route path='/contact' element={<Contact />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
     </UserProvider>

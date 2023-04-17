@@ -13,7 +13,7 @@ function refreshToken() {
         } catch (e) {
             localStorage.removeItem("jwt")
             localStorage.removeItem("refresh_token")
-            window.location = "/"
+            window.location = "/login"
         }
     };
     fetchData();
@@ -25,6 +25,7 @@ async function checkToken(token) {
         return true
     } catch (error) {
         refreshToken()
+        return false
     }
 }
 

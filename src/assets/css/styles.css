@@ -160,6 +160,10 @@ a:active {
     background: var(--main-color-hover)
 }
 
+.item-img-empty {
+    background-image: url(../img/content/empty.png);
+}
+
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     background: var(--main-color)
 }

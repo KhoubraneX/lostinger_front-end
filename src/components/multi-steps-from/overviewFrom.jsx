@@ -1,7 +1,11 @@
 import Input from "./input";
+import { useItemDtContext } from "../../utils/contexts/ItemDetailsContext"
+import { useEffect } from "react";
 
 export default function Overview({overviewData , setOverviewData}) {
-
+    // get dataForm from Context
+    let itemDetails = useItemDtContext()
+    
     let handelChange = ({ target }) => {
         //
         let {value , name} = target
@@ -55,19 +59,23 @@ export default function Overview({overviewData , setOverviewData}) {
             <div className="form-group col-md-6">
                 <label className="bolder">Type</label>
             <select onChange={handelChange} value={itemType.value} className="form-control valid" name="itemType" id="exampleFormControlSelect1" aria-invalid="false">
-                <option value="found">found</option>
-                <option value="lost">Lost</option>
+                {/*  */}
+                {itemDetails && itemDetails.item_type.map((type) => (
+                    <option key={type._idType} value={type._idType}>{type.nameType}</option>
+                ))}
+                {/*  */}
             </select>
             </div>
             <div className="form-group col-md-6">
                 <label className="bolder">Category</label>
             <select onChange={handelChange} value={itemCategory.value} className="form-control valid" name="itemCategory" id="exampleFormControlSelect1" aria-invalid="false">
-                <option value="Wallet">Wallet</option>
-                <option value="Watch">Watch</option>
+                {itemDetails && itemDetails.item_category.map((cat) => (
+                    <option key={cat._idCategory} value={cat._idCategory}>{cat.nameCategorie}</option>
+                ))}
             </select>
             </div>
             <div className="form-group col-md-6">
-                <label className="bolder">Date {itemType.value}</label>
+                <label className="bolder">Date</label>
                 <Input InputData={itemDate} onhandelChange={handelChange} nameInput="itemDate" typeInput="date"/>
             </div>
             <div className="form-group col-md-6">

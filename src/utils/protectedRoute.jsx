@@ -3,11 +3,10 @@ import { useUserContext } from './contexts/UserContext';
 
 const ProtectedRoute = () => {
     let user = useUserContext()
-
-    if (!user) {
-        return <Navigate to="/login" replace/>;
-    }else {
+    if (user) {
         return <Outlet />;
+    } else {
+        return <Navigate to="/login" replace />;
     }
 };
 
@@ -20,5 +19,6 @@ const CheckAuthRoute = () => {
         return <Navigate to="/home" replace />;
     }
 };
+
 
 export {ProtectedRoute , CheckAuthRoute};

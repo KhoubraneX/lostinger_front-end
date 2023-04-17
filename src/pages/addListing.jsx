@@ -1,10 +1,8 @@
 import Form from "../components/multi-steps-from/form";
 import PageTitleSection from "../components/pageTitleSection";
-import { RefreshToken } from '../utils/authServices';
-import { useEffect } from "react";
+import { ItemDtProvider } from "../utils/contexts/ItemDetailsContext";
 
 export default function AddListing() {
-
   return (
     <>
       <PageTitleSection hrefText="Add Listing" />
@@ -14,7 +12,9 @@ export default function AddListing() {
             <div className="row">
               <div className="col-md-12">
                 <div className="card card-white card-steps padding-40px-all ">
-                  <Form />
+                  <ItemDtProvider>
+                    <Form />
+                  </ItemDtProvider>
                 </div>
               </div>
             </div>
