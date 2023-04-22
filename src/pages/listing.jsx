@@ -1,9 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ListingRight from "../components/lisitng-right";
 import ListingGrid from "../components/listing-grid";
 import PageTitleSection from "../components/pageTitleSection";
 
+import axios from "../api/axios";
 export default function Listing() {
+
+  const [items , setItems] = useState(null)
+
+  useEffect(() => {
+    let isMounted = true
+    let controller = new AbortController()
+
+    let fetchItems = async () => {
+      try {
+      let { data } = await axios.get("/space/api/items");
+      isMounted && setItems(data);
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    fetchItems()
+    return () => {
+        isMounted = false
+        controller.abort()
+    }
+  } , [])
+
   const mode = { grid: "grid", right: "right" };
 
   const [listingMode, setListingMode] = useState(mode.grid);
@@ -217,7 +242,7 @@ export default function Listing() {
           </div>
           <div className="row">
             {/* mode lisitng */}
-            {listingMode === "right" ? <ListingRight /> : <ListingGrid />}
+            {listingMode === "right" ? <ListingRight items={items}/> : <ListingGrid items={items} />}
 
             <div className="col-lg-3">
               <div className="side-bar">

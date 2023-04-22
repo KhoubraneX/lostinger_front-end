@@ -118,9 +118,7 @@ a:active {
     color: #17a2b8;
 }
 
-.page-right-sidebar.visible {
-    
-}
+.page-right-sidebar.visible {}
 
 .scroll-to-top:hover {
     color: var(--main-color);
@@ -160,11 +158,24 @@ a:active {
     background: var(--main-color-hover)
 }
 
+.img-card-box {
+    width: 100%;
+    height: 172px;
+}
+
+.img-card {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .item-img-empty {
     background-image: url(../img/content/empty.png);
 }
 
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
     background: var(--main-color)
 }
 
@@ -217,6 +228,7 @@ a.butn.white:active {
         padding: 10px 24px;
         font-size: 13px
     }
+
     .comment-form {
         display: none;
     }
@@ -338,6 +350,7 @@ label.error {
 .modebtn {
     cursor: pointer;
 }
+
 .modebtn.active {
     color: #63CB89;
 }
@@ -1989,12 +2002,15 @@ footer h3:after {
     background-color: var(--main-color) !important;
 }
 
-.k-stepper .k-step-done:hover .k-step-indicator, .k-stepper .k-step-done.k-hover .k-step-indicator, .k-stepper .k-step-done.k-step-hover .k-step-indicator {
+.k-stepper .k-step-done:hover .k-step-indicator,
+.k-stepper .k-step-done.k-hover .k-step-indicator,
+.k-stepper .k-step-done.k-step-hover .k-step-indicator {
     background-color: var(--main-color) !important;
 }
 
-.k-button-solid-primary:focus, .k-button-solid-primary.k-focus {
-    box-shadow: 0 0 0px 2px rgb(0 130 139 / 33%) !important; 
+.k-button-solid-primary:focus,
+.k-button-solid-primary.k-focus {
+    box-shadow: 0 0 0px 2px rgb(0 130 139 / 33%) !important;
 }
 
 .k-stepper .k-step-done .k-step-indicator {
@@ -2006,7 +2022,7 @@ footer h3:after {
 .k-stepper .k-step-current .k-step-indicator {
     border-color: var(--main-color) !important;
     color: white;
-    background-color: var(--main-color)!important;
+    background-color: var(--main-color) !important;
 }
 
 .k-stepper .k-step-indicator {
@@ -2014,7 +2030,7 @@ footer h3:after {
     height: 40px !important;
 }
 
-.k-step-list-horizontal ~ .k-progressbar {
+.k-step-list-horizontal~.k-progressbar {
     top: calc(73.84px / 3) !important;
 }
 
@@ -2031,7 +2047,8 @@ footer h3:after {
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02));
 }
 
-.k-button-solid-primary:hover, .k-button-solid-primary.k-hover {
+.k-button-solid-primary:hover,
+.k-button-solid-primary.k-hover {
     border-color: var(--main-color-hover) !important;
     background-color: var(--main-color-hover) !important;
 }
@@ -2055,7 +2072,7 @@ footer h3:after {
     .padding-40px-all {
         padding: 40px 0;
     }
-    
+
     .footer-bar p {
         font-size: 12px
     }
@@ -2125,4 +2142,60 @@ footer h3:after {
 .form-group label.bolder {
     font-weight: 600;
     text-transform: capitalize;
+}
+
+
+.card-loader {
+    background-color: #fff;
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.08), 0 -1px 3px 0 rgba(0, 0, 0, 0.06);
+    padding: 8px;
+    position: relative;
+    border-radius: 2px;
+    margin-bottom: 0;
+    min-height: 320px;
+    overflow: hidden;
+}
+
+.card-loader-right {
+    min-height: 190px;
+}
+
+.card-loader:only-child {
+    margin-top: 0;
+}
+
+.card-loader:before {
+    content: "";
+    height: 110px;
+    display: block;
+    background-color: #ededed;
+    box-shadow: -48px 78px 0 -48px #ededed, -51px 102px 0 -51px #ededed;
+}
+
+.card-loader:after {
+    content: "";
+    background-color: #333;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation-duration: 0.6s;
+    animation-iteration-count: infinite;
+    animation-name: loader-animate;
+    animation-timing-function: linear;
+    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 81%);
+    background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 81%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 81%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ffffff", endColorstr="#00ffffff", GradientType=1);
+}
+
+@keyframes loader-animate {
+    0% {
+        transform: translate3d(-100%, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(100%, 0, 0);
+    }
 }

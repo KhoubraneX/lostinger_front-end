@@ -10,82 +10,118 @@ export default function Register() {
   const [name, setName] = useState({
     value: "",
     errorMsg: "",
+    isValid: false
   })
 
   const [email, setEmail] = useState({
     value: "",
-    errorMsg: ""
+    errorMsg: "",
+    isValid: false
   })
 
   const [password, setPassword] = useState({
     value: "",
-    errorMsg: ""
+    errorMsg: "",
+    isValid: false
   })
 
   const [Cpassword, setCPassword] = useState({
     value: "",
-    errorMsg: ""
+    errorMsg: "",
+    isValid: false
   })
 
   const [errorMsg, setErrorMsg] = useState()
-  const [isLoad , setIsLoad] = useState(false)
+  const [isLoad, setIsLoad] = useState(false)
+
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(String(email).toLowerCase())
+  }
 
   let handelNameChange = ({ target }) => {
+    const { value } = target;
+    const errorMsg = value.trim().length < 3 || value.trim().length > 15 ? "Please enter a name between 3 and 15 characters" : "";
+    const isValid = errorMsg === "";
+
     setName({
-      ...name,
-      value: target.value
+      value,
+      errorMsg,
+      isValid
     });
   }
-  
+
   let handelEmailChange = ({ target }) => {
+    const { value } = target;
+    const errorMsg = !validateEmail(value.trim()) ? "Email is not valid" : "";
+    const isValid = errorMsg === "";
+
     setEmail({
-      ...email,
-      value: target.value
+      value,
+      errorMsg,
+      isValid
     });
   }
 
   let handelPasswordChange = ({ target }) => {
+    const { value } = target;
+    const errorMsg = value.length < 8 ? "Password should be at least 8 characters long" : (value.length > 20 ? "Please enter a password between 8 and 15 characters" : "");
+    const isValid = errorMsg === "";
+
     setPassword({
-      ...password,
-      value: target.value
+      value,
+      errorMsg,
+      isValid
     });
   }
 
   let handelCPasswordChange = ({ target }) => {
+    const { value } = target;
+    const errorMsg = value !== password.value ? "Passwords do not match" : "";
+    const isValid = errorMsg === "";
+
     setCPassword({
-      ...Cpassword,
-      value: target.value
+      value,
+      errorMsg,
+      isValid
     });
   }
 
   let onSubmitLogin = (e) => {
     e.preventDefault();
-    async function sendRequest() {
-      setIsLoad(true)
-      try {
-        const response = await axios.post("/space/api/auth/register", JSON.stringify({
-          name: name.value,
-          email: email.value,
-          password: password.value
-        }));
-        
-        let { jwt , refresh_token } = response.data
-        //
-        localStorage.setItem("jwt", jwt)
-        localStorage.setItem("refresh_token", refresh_token)
-        //
-        setTimeout(() => {
-          window.location = '/';
+
+    const isValidForm = name.isValid && email.isValid && password.isValid && Cpassword.isValid;
+
+    if (isValidForm) {
+      async function sendRequest() {
+        setIsLoad(true)
+        try {
+          const response = await axios.post("/space/api/auth/register", JSON.stringify({
+            name: name.value,
+            email: email.value,
+            password: password.value
+          }));
+
+          let { jwt, refresh_token } = response.data
+          //
+          localStorage.setItem("jwt", jwt)
+          localStorage.setItem("refresh_token", refresh_token)
+          //
+          setTimeout(() => {
+            window.location = '/';
+            setIsLoad(false)
+          }, 1000);
+
+        } catch (error) {
+          let { response } = error
+          setErrorMsg(response.data.message)
           setIsLoad(false)
-        }, 1000);
-        
-      } catch (error) {
-        let { response } = error
-        setErrorMsg(response.data.message)
-        setIsLoad(false)
+        }
       }
+      sendRequest()
+    } else {
+      setErrorMsg("Please fill all the required fields correctly");
     }
-    sendRequest()
   }
 
   return (
@@ -120,7 +156,7 @@ export default function Register() {
                       </div>
                     </div>
                     <div className="col-12">
-                        {errorMsg && <div className="alert alert-danger" role="alert">{errorMsg}</div>}
+                      {errorMsg && <div className="alert alert-danger" role="alert">{errorMsg}</div>}
                     </div>
                     <div className="col-md-12">
                       <div className="custom-control custom-checkbox text-left">
@@ -129,7 +165,7 @@ export default function Register() {
                       </div>
                     </div>
                     <div className="col-md-12 margin-25px-top">
-                    <Button type="submit" className="butn btn-block" text={!isLoad ? "Register" : <Spinner/>}></Button>
+                      <Button type="submit" className="butn btn-block" text={!isLoad ? "Register" : <Spinner />}></Button>
                     </div>
                     <div className="col-md-12 text-center margin-25px-top">
                       <span>Already have an account? <Link to="/login">Login</Link></span>

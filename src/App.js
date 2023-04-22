@@ -56,6 +56,7 @@ function App() {
         <Route path='/blog' element={<Blog />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='*' element={<PageNotFound />} />
+        <Route path='notFound' element={<PageNotFound />} />
       </Routes>
     </UserProvider>
     <TopButton />

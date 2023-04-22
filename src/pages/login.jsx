@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Input from "../components/ui-components/input";
 import axios from "../api/axios";
 import Button from "../components/ui-components/button";
-import { decodeToken } from "react-jwt";
 import Spinner from "../components/spinner";
 
 
@@ -24,50 +23,72 @@ export default function Login() {
 
   const [errorMsg, setErrorMsg] = useState()
 
-  const [isLoad , setIsLoad] = useState(false)
+  const [isLoad, setIsLoad] = useState(false)
+
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(String(email).toLowerCase())
+  }
 
   let handelEmailChange = ({ target }) => {
+    const { value } = target;
+    const errorMsg = !validateEmail(value.trim()) ? "Email is not valid" : "";
+    const isValid = errorMsg === "";
+
     setEmail({
-      ...email,
-      value: target.value
+      value,
+      errorMsg,
+      isValid
     });
   }
 
   let handelPasswordChange = ({ target }) => {
+    const { value } = target;
+    const errorMsg = value.length < 8 ? "Password should be at least 8 characters long" : "";
+    const isValid = errorMsg === "";
+
     setPassword({
-      ...password,
-      value: target.value
+      value,
+      errorMsg,
+      isValid
     });
   }
 
 
   let onSubmitLogin = (e) => {
     e.preventDefault();
-    async function sendRequest() {
-      setIsLoad(true)
-      try {
-        const response = await axios.post("/space/api/auth/login", JSON.stringify({
-          email: email.value,
-          password: password.value
-        }));
-        
-        let { jwt , refresh_token } = response.data
-        //
-        localStorage.setItem("jwt", jwt)
-        localStorage.setItem("refresh_token", refresh_token)
-        //
-        setTimeout(() => {
-          window.location = '/';
+
+    const isValidForm = email.isValid && password.isValid;
+
+    if (isValidForm) {
+      async function sendRequest() {
+        setIsLoad(true)
+        try {
+          const response = await axios.post("/space/api/auth/login", JSON.stringify({
+            email: email.value,
+            password: password.value
+          }));
+
+          let { jwt, refresh_token } = response.data
+          //
+          localStorage.setItem("jwt", jwt)
+          localStorage.setItem("refresh_token", refresh_token)
+          //
+          setTimeout(() => {
+            window.location = '/';
+            setIsLoad(false)
+          }, 1000);
+
+        } catch (error) {
+          let { response } = error
+          setErrorMsg(response.data.message)
           setIsLoad(false)
-        }, 1000);
-        
-      } catch (error) {
-        let { response } = error
-        setErrorMsg(response.data.message)
-        setIsLoad(false)
+        }
       }
+      sendRequest()
+    } else {
+      setErrorMsg("Please fill all the required fields correctly");
     }
-    sendRequest()
   }
 
   return (
@@ -105,7 +126,7 @@ export default function Login() {
                     </div>
                   </div>
                   <div className="margin-25px-top">
-                    <Button type="submit" className="butn btn-block" text={!isLoad ? "Login" : <Spinner/>}></Button>
+                    <Button type="submit" className="butn btn-block" text={!isLoad ? "Login" : <Spinner />}></Button>
                   </div>
                   <div className="col-md-12 text-center margin-25px-top">
                     <span>Don't have an account yet? <Link to="/registration">Register</Link></span>

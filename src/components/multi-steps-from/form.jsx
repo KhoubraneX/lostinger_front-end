@@ -8,10 +8,13 @@ import Overview from "./overviewFrom";
 import Publish from "./publishForm";
 import axios from "../../api/axios";
 import { useItemDtContext } from "../../utils/contexts/ItemDetailsContext";
+import Spinner from "./spinner";
+import { useNavigate } from "react-router-dom";
+import { checkToken, refreshToken } from "../../utils/authServices";
 
 export default function Form() {
     let itemDetails = useItemDtContext()
-
+    const Navigate = useNavigate()
     // all steps
     const [steps, setSteps] = useState([
         { label: "Overview", stepName: "overview", index: 0, completd: false },
@@ -121,7 +124,6 @@ export default function Form() {
     }
 
     let handelLocation_Submit = () => {
-
         let currentData = { ...locationData }
         let stepValid = true;
 
@@ -148,6 +150,8 @@ export default function Form() {
 
     // submit the form
     let handelPublish_Submit = () => {
+        checkToken(localStorage.jwt)
+        setLoadStatus(true)
         let dataForm = { ...overviewData, ...locationData, ...galleryData }
         let dataFromSend = {}
 
@@ -157,7 +161,6 @@ export default function Form() {
         }
 
         let { ItemBrand, address, dataImg, itemCategory, itemDate, itemDesc, itemName, itemType, place, zipCode } = dataFromSend
-
         let sendData = () => {
             let data = {
                 "nameItem": itemName,
@@ -169,7 +172,7 @@ export default function Form() {
                 "brand": ItemBrand,
                 "_idType": itemType
             };
-            if (dataImg !== null) {
+            if (dataImg != null || dataImg != undefined) {
                 data.img = dataImg["data_url"]
             }
             let config = {
@@ -183,15 +186,17 @@ export default function Form() {
             };
 
             axios.request(config)
-                .then((response) => {
-                    console.log(response.data);
+                .then(({data}) => {
+                    setTimeout(() => {
+                        setLoadStatus(false)
+                        Navigate(`/listing/listingDetails/${data.id}`)
+                    }, 100)
                 })
-                .catch((error) => {
-                    console.log(error);
+                .catch(({response}) => {
+                    console.log(response);
                 });
 
         }
-
         sendData()
     }
 
@@ -243,13 +248,7 @@ export default function Form() {
 
     return (
         <>
-            {loadStatus === true &&
-                <div className="spiner-steps">
-                    <div className="spinner-border text-info" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div>
-            }
+            {loadStatus === true && <Spinner/>}
             <Headersteps {...{ steps, stepsCompleted, activeStep, handelStepsClick }} />
             <div className="col-md-12 pt-4">
                 {steps[activeStep].stepName === "overview" && <Overview {...{ overviewData, setOverviewData }} />}

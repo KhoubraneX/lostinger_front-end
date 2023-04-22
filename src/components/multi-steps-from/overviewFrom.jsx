@@ -1,6 +1,5 @@
 import Input from "./input";
 import { useItemDtContext } from "../../utils/contexts/ItemDetailsContext"
-import { useEffect } from "react";
 
 export default function Overview({overviewData , setOverviewData}) {
     // get dataForm from Context
@@ -15,7 +14,7 @@ export default function Overview({overviewData , setOverviewData}) {
         let testCheck;
         switch (name) {
             case "itemName":
-                validateInput(/^.{1,20}$/, value , name , "Please enter a valid name between 1 and 10 characters long");
+                validateInput(/^.{1,25}$/, value , name , "Please enter a valid name between 1 and 25 characters long");
                 break;
             case "ItemBrand":
                 validateInput(/^.{1,20}$/, value , name , "Please enter a valid brand between 1 and 10 characters long");
