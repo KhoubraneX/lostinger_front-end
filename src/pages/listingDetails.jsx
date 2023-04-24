@@ -34,7 +34,6 @@ export default function ListingDetails() {
   }, []);
 
   let {
-    _idUser,
     nameCategorie,
     nameStatus,
     nameType,

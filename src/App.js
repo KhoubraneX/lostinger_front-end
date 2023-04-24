@@ -18,7 +18,8 @@ import {UserProvider} from './utils/contexts/UserContext';
 import {ProtectedRoute , CheckAuthRoute} from './utils/protectedRoute'
 import React, { useEffect, useState } from 'react';
 import { PreLoaderMain } from './components/preLoaderPage';
-
+import PlacesAutocomplete from './pages/map';
+import { ItemDtProvider } from './utils/contexts/ItemDetailsContext';
 
 function App() {
 
@@ -47,14 +48,17 @@ function App() {
               <Route path='/signup' element={<Register />} />
         </Route>
         <Route element={<ProtectedRoute/>}>
-              <Route path='/addListing' element={ <AddListing />} />
+              <Route path='/addListing' element={<ItemDtProvider><AddListing /></ItemDtProvider>} />
               <Route path='/dashboard' element={ <Dashboard />} />
         </Route>
-        <Route path='/listing' element={<Listing />} ></Route>
+        <Route path='/listing' element={<ItemDtProvider>
+            <Listing />
+          </ItemDtProvider>} ></Route>
         <Route path='/listing/listingDetails/:id' element={<ListingDetails />} />
         <Route path='/blogDetails/:id' element={<BlogDetails />} />
         <Route path='/blog' element={<Blog />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/map' element={<PlacesAutocomplete />} />
         <Route path='*' element={<PageNotFound />} />
         <Route path='notFound' element={<PageNotFound />} />
       </Routes>

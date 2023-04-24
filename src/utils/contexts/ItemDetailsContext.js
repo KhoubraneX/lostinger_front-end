@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import axios from "../../api/axios"
-import { refreshToken } from "../authServices"
 import { PreLoaderMain } from "../../components/preLoaderPage"
 
 const ItemDtContext = createContext(null)
@@ -35,10 +34,10 @@ export function ItemDtProvider({ children }) {
 
 return (
   <>
-  {itemDetails === null && <PreLoaderMain/>}
-    {itemDetails !== null && <ItemDtContext.Provider value={itemDetails}>
+
+    <ItemDtContext.Provider value={itemDetails}>
         { children }
-    </ItemDtContext.Provider>}
+    </ItemDtContext.Provider>
   </>
 )
 }

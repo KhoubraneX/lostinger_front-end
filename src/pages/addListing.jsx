@@ -1,8 +1,10 @@
 import Form from "../components/multi-steps-from/form";
 import PageTitleSection from "../components/pageTitleSection";
-import { ItemDtProvider } from "../utils/contexts/ItemDetailsContext";
+import { PreLoaderMain } from "../components/preLoaderPage";
+import { useItemDtContext } from "../utils/contexts/ItemDetailsContext";
 
 export default function AddListing() {
+  let itemDtContext = useItemDtContext()
   return (
     <>
       <PageTitleSection hrefText="Add Listing" />
@@ -12,9 +14,8 @@ export default function AddListing() {
             <div className="row">
               <div className="col-md-12">
                 <div className="card card-white card-steps padding-40px-all ">
-                  <ItemDtProvider>
-                    <Form />
-                  </ItemDtProvider>
+                    {!itemDtContext && <PreLoaderMain />}
+                    {itemDtContext && <Form />}
                 </div>
               </div>
             </div>
