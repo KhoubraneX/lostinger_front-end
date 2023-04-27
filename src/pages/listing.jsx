@@ -1,34 +1,35 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import ListingRight from "../components/lisitng-right";
 import ListingGrid from "../components/listing-grid";
 import PageTitleSection from "../components/pageTitleSection";
 import axios from "../api/axios";
 import FilterDropDown from "../components/srearch/filter-dropDown";
-import FilterTags from "../components/srearch/filter-tags";
+import FilterBrand from "../components/srearch/filter-brand";
 import FilterSearch from "../components/srearch/filter-search";
-import FilterAdditional from "../components/srearch/fillter-additional";
+// import FilterAdditional from "../components/srearch/fillter-additional"; 
 import ViewType from "../components/viewType";
+import { useSearchContext } from "../utils/contexts/searchContext";
+
+
 export default function Listing() {
 
+  // get search data from context
+  let { searchParam } = useSearchContext()
   const [items, setItems] = useState(null)
-
-
-
   // fetch data
-  useEffect(() => {
+  useLayoutEffect(() => {
     let isMounted = true
     let controller = new AbortController()
-
+    
     let fetchItems = async () => {
       try {
         let { data } = await axios.get("/space/api/items");
         if (isMounted) {
           setItems(data)
           setFilteredData(data);
-          console.log(data);
+          // eslint-disable-next-line no-sparse-arrays
+          filterData(...[searchParam.location , searchParam.name , searchParam.category , , , , , data])
         }
-
-
       } catch (error) {
         console.log(error);
       }
@@ -54,42 +55,46 @@ export default function Listing() {
     setListingMode(mode.right);
   }
 
-
   // handel search
   const [searchValueByName, setSearchValueByName] = useState({
-    value: ""
+    value: searchParam.name
   });
   const [searchValueByLocation, setSearchValueByLocation] = useState({
-    value: ""
+    value: searchParam.location
   });
   const [searchValueByCategory, setSearchValueByCategory] = useState({
-    value: ""
+    value: searchParam.category
   });
   const [searchValueByPlace, setSearchValueByPlace] = useState({
-    value: ""
+    value: searchParam.place
   });
   const [searchValueByStatus, setSearchValueByStatus] = useState({
-    value: ""
+    value: searchParam.status
   });
-
-  const [sortOrder, setSortOrder] = useState('');
-
-  const handleSortChange = (event) => {
-    setSortOrder(event.target.value);
-    filterData(searchValueByLocation.value, searchValueByName.value, searchValueByCategory.value, searchValueByPlace.value, searchValueByStatus.value, event.target.value)
-  }
+  const [searchValueByBrand, setSearchValueByBrand] = useState(searchParam.brand);
 
   const [filteredData, setFilteredData] = useState(items);
 
-  function filterData(Location, Name, Category, Place, Status, order = sortOrder) {
+  function filterData(Location = searchValueByLocation.value,
+    Name = searchValueByName.value,
+    Category = searchValueByCategory.value,
+    Place = searchValueByPlace.value,
+    Status = searchValueByStatus.value,
+    Brand = searchValueByBrand,
+    order = sortOrder , itemsData = items) {
     let newData;
-    newData = items.filter((item) =>
+    // filtter by Location, Name, Category, Place, Status
+    if (!itemsData) return;
+    newData = itemsData.filter((item) =>
       item.location.toLowerCase().includes(Location.toLowerCase()) &&
       item.nameItem.toLowerCase().includes(Name.toLowerCase()) &&
       item.namePlace.toLowerCase().includes(Place.toLowerCase()) &&
       item.nameType.toLowerCase().includes(Status.toLowerCase()) &&
+      item.brand.toLowerCase().includes(Brand.toLowerCase()) &&
       item.nameCategorie.toLowerCase().includes(Category.toLowerCase())
     );
+
+    // fillter by date
     if (order === 'asc') {
       newData = [...newData].sort((a, b) => new Date(a.date) - new Date(b.date));
     } else if (order === "desc") {
@@ -98,40 +103,68 @@ export default function Listing() {
     setFilteredData(newData);
   }
 
-  function handleSearchByName(event) {
+  const handleBrandChange = ({ target }) => {
+    if (target.checked === true) {
+      setSearchValueByBrand(target.value);
+      
+      // eslint-disable-next-line no-sparse-arrays
+      filterData(...[, , , , , target.value]);
+    } else {
+      setSearchValueByBrand("");
+      
+      // eslint-disable-next-line no-sparse-arrays
+      filterData(...[, , , , , ""]);
+    }
+  }
+  // sorting order status
+  const [sortOrder, setSortOrder] = useState(searchParam.sortBy);
+  const handleSortChange = ({ target }) => {
+    setSortOrder(target.value);
+
+    // eslint-disable-next-line no-sparse-arrays
+    filterData(...[, , , , , , target.value])
+  }
+
+  function handleSearchByName({ target }) {
     setSearchValueByName({
-      value: event.target.value
+      value: target.value
     });
-    filterData(searchValueByLocation.value, event.target.value, searchValueByCategory.value, searchValueByPlace.value, searchValueByStatus.value);
+
+    // eslint-disable-next-line no-sparse-arrays
+    filterData(...[, target.value]);
   }
 
-  function handleSearchByCategory(event) {
+  function handleSearchByCategory({ target }) {
     setSearchValueByCategory({
-      value: event.target.value
+      value: target.value
     });
-    filterData(searchValueByLocation.value, searchValueByName.value, event.target.value, searchValueByPlace.value, searchValueByStatus.value);
+    // eslint-disable-next-line no-sparse-arrays
+    filterData(...[, , target.value]);
   }
 
-  function handleSearchByPlace(event) {
+  function handleSearchByPlace({ target }) {
     setSearchValueByPlace({
-      value: event.target.value
+      value: target.value
     });
-    filterData(searchValueByLocation.value, searchValueByName.value, searchValueByCategory.value, event.target.value, searchValueByStatus.value);
+    // eslint-disable-next-line no-sparse-arrays
+    filterData(...[, , , target.value]);
   }
 
-  function handleSearchByStatus(event) {
+  function handleSearchByStatus({ target }) {
     setSearchValueByStatus({
-      value: event.target.value
+      value: target.value
     });
-    filterData(searchValueByLocation.value, searchValueByName.value, searchValueByCategory.value, searchValueByPlace.value, event.target.value);
+    // eslint-disable-next-line no-sparse-arrays
+    filterData(...[, , , , target.value]);
   }
 
-  function handleSearchByLocation(event) {
+  function handleSearchByLocation(value) {
     setSearchValueByLocation({
-      value: event.target.value
+      value: value 
     });
-    filterData(event.target.value, searchValueByName.value, searchValueByCategory.value, searchValueByPlace.value, searchValueByStatus.value);
+    filterData(value);
   }
+
 
   return (
     <>
@@ -144,7 +177,7 @@ export default function Listing() {
               <ViewType listingMode={listingMode} mode={mode} handelModeGrid={handelModeGrid} handelModeRight={handelModeRight} />
             </div>
           </div>
-          <FilterTags />
+          <FilterBrand onHandleBrandChange={handleBrandChange} searchValueByBrand={searchValueByBrand} />
           <div className="row">
             {/* mode lisitng */}
             {listingMode === "right" ? <ListingRight items={filteredData} /> : <ListingGrid items={filteredData} />}
@@ -152,7 +185,7 @@ export default function Listing() {
             <div className="col-lg-3">
               <div className="side-bar">
                 <FilterSearch searchValueByCategory={searchValueByCategory} handleSearchByCategory={handleSearchByCategory} onHandleSearchByLocation={handleSearchByLocation} searchValueByLocation={searchValueByLocation} onHandleSearchByName={handleSearchByName} searchValueByName={searchValueByName} />
-                <FilterAdditional />
+                {/* <FilterAdditional /> add it letter */}
               </div>
             </div>
           </div>

@@ -1,6 +1,5 @@
-import Input from "./input";
 import { useItemDtContext } from "../../utils/contexts/ItemDetailsContext"
-import { useLayoutEffect } from "react";
+import LocationSearchInput from "../map";
 export default function LocationSteps({locationData , setLocationData}) {
 
     // get dataForm from Context
@@ -13,10 +12,6 @@ export default function LocationSteps({locationData , setLocationData}) {
         currentData[name].value = value
 
         switch (name) {
-            case "zipCode":
-                validateInput(/^\d{5}(?:[-\s]\d{4})?$/, value , name , "The ZIP code you entered is not valid");
-                break;
-
                 default:
                     let testCheck = value === "" ? false : true
                     currentData[name].valid = testCheck
@@ -27,15 +22,23 @@ export default function LocationSteps({locationData , setLocationData}) {
         setLocationData(currentData)
     }
 
-    let validateInput = (pattern , value , name , message) => {
+    let handelChangeLocation = (value) => {
         let currentData = {...locationData}
-        let testCheck = pattern.test(value.trim());
+        
+        currentData["address"].value = value
 
-        currentData[name].valid = testCheck
-        currentData[name].errorMsg = testCheck ? "" : message
+        switch ("address") {
+                default:
+                    let testCheck = value === "" ? false : true
+                    currentData["address"].valid = testCheck
+                    currentData["address"].errorMsg = testCheck ? "" : "this field is required"
+                    break;
+        }
+
+        setLocationData(currentData)
     }
 
-    let {place , address , zipCode} = locationData
+    let {place , address } = locationData
     return (
         <>
         <div className="row">
@@ -53,11 +56,10 @@ export default function LocationSteps({locationData , setLocationData}) {
                 </select>
             </div>
 
-            <div className="form-group col-md-4">
-                <Input labelname="Location" InputData={address} onhandelChange={handelChange} nameInput="address" typeInput="text"/>
-            </div>
-            <div className="form-group col-md-4">
-                <Input labelname="Zip-Code" InputData={zipCode} onhandelChange={handelChange} nameInput="zipCode" typeInput="text" placeholder="(e.g. 12345 or 12345-6789)"/>
+            <div className="form-group col-md-8">
+                <label className="bolder">location</label>
+                <LocationSearchInput value={address.value} handleLocationChange={handelChangeLocation}/>
+                {address.errorMsg  && <label className="error" >{address.errorMsg}</label>}
             </div>
             <div className="col form-group">
                 <div className="padding-15px-all shadow bg-white">
@@ -65,7 +67,7 @@ export default function LocationSteps({locationData , setLocationData}) {
                         title="map"
                         className="contact-map"
                         id="gmap_canvas"
-                        src="https://maps.google.com/maps?q=london&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        src={`https://maps.google.com/maps?q=${address.value}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
                     />
                 </div>
             </div>

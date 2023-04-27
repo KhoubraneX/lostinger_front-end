@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import axios from "../../api/axios"
-import { PreLoaderMain } from "../../components/preLoaderPage"
 
 const ItemDtContext = createContext(null)
 
@@ -19,7 +18,6 @@ export function ItemDtProvider({ children }) {
           try {
           let { data } = await axios.get("/space/api/itemDetails");
           isMounted && setItemDetails(data)
-
           } catch (error) {
             console.log(error);
           }

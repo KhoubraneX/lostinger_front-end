@@ -1,11 +1,17 @@
 import TextAnimation from "../components/textAnimation";
-
+import { PopularSearchs, Search } from "../components/search";
+import ItemsNear from "../components/itemNear";
+import UserIpProvider from "../utils/contexts/userIpAdrees";
+import Places from "../components/places";
+import SectionTitle from "../components/sectionTitle";
+import { Link } from "react-router-dom";
+import { ItemDtProvider } from "../utils/contexts/ItemDetailsContext";
 
 export default function Home() {
 
-    return (
-        <>
-        <div>
+  return (
+    <>
+      <div>
         {/* start banner */}
         <section className="bg-img screen-height home-img cover-background line-banner" data-overlay-dark={6} data-background="../assets/img/banner/Blog_art_hero_find_everything-1024x394.png">
           {/* start banner text */}
@@ -16,48 +22,10 @@ export default function Home() {
                 {/* start banner headline text */}
                 <TextAnimation />
                 {/* end banner headline text */}
-                <div className="bg-white-opacity padding-10px-tb margin-40px-top xs-margin-30px-top padding-15px-lr xs-padding-20px-all border-radius-4">
-                  <form method="post" action="#!">
-                    <div className="form-row align-items-center">
-                      <div className="col-md-4 my-1">
-                        <input type="text" className="form-control" id="inlineFormInputName" placeholder="What item you lost?" />
-                      </div>
-                      <div className="col-md-3 my-1">
-                        <select className="form-control" id="exampleFormControlSelect1">
-                          <option >All cities</option>
-                          <option value={1}>casablanca</option>
-                          <option value={2}>rabat</option>
-                          <option value={3}>kenitra</option>
-                          <option value={3}>el jadida</option>
-                        </select>
-                      </div>
-                      <div className="col-md-3 my-1">
-                        <select className="form-control" id="exampleFormControlSelect2">
-                          <option >All Category</option>
-                          <option value={1}>Animals/Pets</option>
-                          <option value={2}>Wallet</option>
-                          <option value={3}>Watch</option>
-                          <option value={4}>Jacket</option>
-                          <option value={5}>Clothing</option>
-                        </select>
-                      </div>
-                      <div className="col-md-2 my-1">
-                        <button type="submit" className="butn btn-block">Search</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div className="margin-40px-top xs-margin-30px-top">
-                  <span className="margin-10px-right text-white xs-display-block xs-margin-10px-bottom">Popular Searchs</span>
-                  <div className="searchs display-inline-block">
-                    <ul className="no-margin-bottom">
-                      <li><a href="#!" className="text-white">Wallet</a></li>
-                      <li><a href="#!" className="text-white">Accessories</a></li>
-                      <li><a href="#!" className="text-white">cat</a></li>
-                      <li><a href="#!" className="text-white">phone</a></li>
-                    </ul>
-                  </div>
-                </div>
+                <ItemDtProvider>
+                  <Search />
+                </ItemDtProvider>
+                <PopularSearchs />
               </div>
             </div>
           </div>
@@ -67,225 +35,24 @@ export default function Home() {
         {/* Start featured categories Section */}
         <section>
           <div className="container">
-            <div className="text-center margin-40px-bottom">
-              <h3 className="margin-10px-bottom">Where Did You Lose Your item</h3>
-              <p className="no-margin-bottom">choose where you lost your items</p>
-            </div>
+          <SectionTitle title="Where Did You Lose Your item" subTitle="choose where you lost your items"/>
             <div className="row">
-              <div className="col-sm-6 col-md-4 col-lg-3 margin-40px-bottom mobile-margin-25px-bottom">
-                <a href="listing-grid-full-width.html">
-                  <div className="feature-inner display-table">
-                    <div className="display-table-cell vertical-align-middle">
-                      <div className="bg-icon">
-                        <i className="ti-server" />
-                      </div>
-                      <div>
-                        <h5 className="font-size20">Cinema</h5>
-                        <i className="ti-server font-size32 text-theme-color" />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-sm-6 col-md-4 col-lg-3 margin-40px-bottom mobile-margin-25px-bottom">
-                <a href="listing-grid-full-width.html">
-                  <div className="feature-inner display-table">
-                    <div className="display-table-cell vertical-align-middle">
-                      <div className="bg-icon">
-                        <i className="ti-envelope" />
-                      </div>
-                      <div>
-                        <h5 className="font-size20">Hotels</h5>
-                        <i className="ti-envelope font-size32 text-theme-color" />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-sm-6 col-md-4 col-lg-3 margin-40px-bottom mobile-margin-25px-bottom">
-                <a href="listing-grid-full-width.html">
-                  <div className="feature-inner display-table">
-                    <div className="display-table-cell vertical-align-middle">
-                      <div className="bg-icon">
-                        <i className="ti-line-double" />
-                      </div>
-                      <div>
-                        <h5 className="font-size20">street</h5>
-                        <i className="ti-line-double font-size32 text-theme-color" />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-sm-6 col-md-4 col-lg-3 margin-40px-bottom mobile-margin-25px-bottom">
-                <a href="listing-grid-full-width.html">
-                  <div className="feature-inner display-table">
-                    <div className="display-table-cell vertical-align-middle">
-                      <div className="bg-icon">
-                        <i className="ti-book" />
-                      </div>
-                      <div>
-                        <h5 className="font-size20">Educational Institute</h5>
-                        <i className="ti-book font-size32 text-theme-color" />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-sm-6 col-md-4 col-lg-3 sm-margin-40px-bottom mobile-margin-25px-bottom">
-                <a href="listing-grid-full-width.html">
-                  <div className="feature-inner display-table">
-                    <div className="display-table-cell vertical-align-middle">
-                      <div className="bg-icon">
-                        <i className="ti-car" />
-                      </div>
-                      <div>
-                        <h5 className="font-size20">Taxi</h5>
-                        <i className="ti-car font-size32 text-theme-color" />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-sm-6 col-md-4 col-lg-3 sm-margin-40px-bottom mobile-margin-25px-bottom">
-                <a href="listing-grid-full-width.html">
-                  <div className="feature-inner display-table">
-                    <div className="display-table-cell vertical-align-middle">
-                      <div className="bg-icon">
-                        <i className="ti-layout-column2" />
-                      </div>
-                      <div>
-                        <h5 className="font-size20">Institution</h5>
-                        <i className="ti-layout-column2 font-size32 text-theme-color" />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-sm-6 col-md-4 col-lg-3 mobile-margin-25px-bottom">
-                <a href="listing-grid-full-width.html">
-                  <div className="feature-inner display-table">
-                    <div className="display-table-cell vertical-align-middle">
-                      <div className="bg-icon">
-                        <i className="ti-bell" />
-                      </div>
-                      <div>
-                        <h5 className="font-size20">Restaurant </h5>
-                        <i className="ti-bell font-size32 text-theme-color" />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-sm-6 col-md-4 col-lg-3">
-                <a href="listing-grid-full-width.html">
-                  <div className="feature-inner display-table">
-                    <div className="display-table-cell vertical-align-middle">
-                      <div className="bg-icon">
-                        <i className="ti-direction-alt" />
-                      </div>
-                      <div>
-                        <h5 className="font-size20">Parks / Gardens</h5>
-                        <i className="ti-direction-alt font-size32 text-theme-color" />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
+              <Places />
             </div>
           </div>
         </section>
         {/* End featured categories Section */}
         {/* start popular things section */}
-        <section className="no-padding-top">
-          <div className="container">
-            <div className="text-center margin-40px-bottom">
-              <h3 className="margin-10px-bottom">Found items Near You</h3>
-              <p className="no-margin-bottom">We found lost items Near You</p>
-            </div>
-            <div className="row">
-              <div className="col-md-6 col-lg-4 margin-30px-bottom">
-                <a href="listing-details.html" className="card bg-img box-hover cover-background border-0 p-4 h-100">
-                  <div className="mt-auto position-relative z-index-9">
-                    <h5 className="text-white">phone</h5>
-                    <hr className="border-color-light-white" />
-                    <div className="position-relative z-index-9 text-white box-desc">
-                      <div className="position-relative z-index-9 text-white"><span className="ti-location-pin" /> 6 Km</div>
-                      <div className="position-relative z-index-9 text-white"> Found</div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-md-6 col-lg-4 margin-30px-bottom">
-                <a href="listing-details.html" className="card box-hover bg-img cover-background border-0 p-4 h-100" data-background="img/content/empty.png">
-                  <div className="mt-auto position-relative z-index-9">
-                    <h5 className="text-white">Airline Tickets</h5>
-                    <hr className="border-color-light-white" />
-                    <div className="position-relative z-index-9 text-white box-desc">
-                      <div className="position-relative z-index-9 text-white"><span className="ti-location-pin" /> 8 Km</div>
-                      <div className="position-relative z-index-9 text-white"> Found</div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-md-6 col-lg-4 margin-30px-bottom">
-                <a href="listing-details.html" className="card box-hover bg-img cover-background border-0 p-4 h-100" data-background="img/content/lost_jacket_clothing_jacket_734.jpg">
-                  <div className="mt-auto z-index-9">
-                    <h5 className="text-white">Jacket</h5>
-                    <hr className="border-color-light-white" />
-                    <div className="position-relative z-index-9 text-white box-desc">
-                      <div className="position-relative z-index-9 text-white"><span className="ti-location-pin" /> 9 Km</div>
-                      <div className="position-relative z-index-9 text-white"> Found</div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-md-6 col-lg-4 sm-margin-30px-bottom">
-                <a href="listing-details.html" className="card bg-img box-hover cover-background border-0 p-4 h-100" data-background="img/content/lost_cats_animals_pets_cats_517-2.jpg">
-                  <div className="mt-auto z-index-9">
-                    <h5 className="text-white">Cats</h5>
-                    <hr className="border-color-light-white" />
-                    <div className="position-relative z-index-9 text-white box-desc">
-                      <div className="position-relative z-index-9 text-white"><span className="ti-location-pin" /> 9 Km</div>
-                      <div className="position-relative z-index-9 text-white"> Found</div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-md-6 col-lg-4 xs-margin-30px-bottom">
-                <a href="listing-details.html" className="card bg-img box-hover cover-background border-0 p-4 h-100" data-background="img/content/lost_chanel_purse_personal_accessories_chanel_purse_470-2.jpg">
-                  <div className="mt-auto z-index-9">
-                    <h5 className="text-white">Chanel purse</h5>
-                    <hr className="border-color-light-white" />
-                    <div className="position-relative z-index-9 text-white box-desc">
-                      <div className="position-relative z-index-9 text-white"><span className="ti-location-pin" /> 12 Km</div>
-                      <div className="position-relative z-index-9 text-white"> Found</div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div className="col-md-6 col-lg-4">
-                <a href="listing-details.html" className="card bg-img box-hover cover-background border-0 p-4 h-100" data-background="img/content/lost_african_gray_gongo_animals_pets_african_gray_gongo_428-2.jpg">
-                  <div className="mt-auto z-index-9">
-                    <h5 className="text-white">AFRICAN GRAY GONGO</h5>
-                    <hr className="border-color-light-white" />
-                    <div className="position-relative z-index-9 text-white box-desc">
-                      <div className="position-relative z-index-9 text-white"><span className="ti-location-pin" /> 16 Km</div>
-                      <div className="position-relative z-index-9 text-white"> Found</div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
+        <UserIpProvider>
+          <ItemsNear />
+        </UserIpProvider>
         {/* end popular things section */}
         {/* start contact section */}
         <section className="bg-theme">
           <div className="container">
             <div className="text-center">
               <h3 className="text-white margin-30px-bottom font-size38 sm-font-size36 xs-font-size34">Submit Your Lost or Found Item Connect with the Community</h3>
-              <a className="butn white" href="/add-listing.html"><span className="alt-font">Add Lost / found item</span></a>
+              <Link to="/addListing"  className="butn white" href="/add-listing.html"><span className="alt-font">Add Lost / found item</span></Link>
             </div>
           </div>
         </section>
@@ -370,7 +137,7 @@ export default function Home() {
               <div className="col-lg-4 sm-margin-30px-bottom">
                 <div className="card border-0 shadow h-100">
                   <a href="#">
-                    <img className="card-img-top rounded" src={require("../assets/img/blog/blog-1.jpg")}  alt="" />
+                    <img className="card-img-top rounded" src={require("../assets/img/blog/blog-1.jpg")} alt="" />
                   </a>
                   <div className="card-body padding-30px-all">
                     <h5 className="card-title font-size22 font-weight-500 magin-20px-bottom">
@@ -431,6 +198,6 @@ export default function Home() {
         </section>
         {/* end blog section */}
       </div>
-        </>
-    )
+    </>
+  )
 }

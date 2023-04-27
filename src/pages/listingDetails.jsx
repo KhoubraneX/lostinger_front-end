@@ -4,11 +4,29 @@ import { PreLoaderMain } from "../components/preLoaderPage";
 import PageTitleSection from "../components/pageTitleSection";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
+import { ItemCardGrid } from "../components/itemCard";
 
 export default function ListingDetails() {
   const [itemDetails, setItemDetails] = useState(null);
+  const [itemSimilar, setItemSimilar] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
+
+  let fetchSimilarItem = async (idItem, brand, categorie, type) => {
+    let dataSend = {
+      "_idItem": idItem,
+      "brand": brand,
+      "nameCategorie": categorie,
+      "nameType": type
+    }
+    try {
+      let { data } = await axios.post("/space/api/items?target=similarItem", JSON.stringify(dataSend))
+      setItemSimilar(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   // get item details
   useLayoutEffect(() => {
@@ -18,7 +36,10 @@ export default function ListingDetails() {
     let fetchItems = async () => {
       try {
         let { data } = await axios.get(`/space/api/items/${id}`);
-        isMounted && setItemDetails(data);
+        if (isMounted) {
+          setItemDetails(data);
+          await fetchSimilarItem(data["_idItem"], data["brand"], data["nameCategorie"], data["nameType"])
+        }
       } catch ({ response }) {
         if (response.status === 404) {
           navigate("/notFound");
@@ -35,7 +56,6 @@ export default function ListingDetails() {
 
   let {
     nameCategorie,
-    nameStatus,
     nameType,
     namePlace,
     nameItem,
@@ -64,7 +84,7 @@ export default function ListingDetails() {
                     <ul className="bg-light-gray padding-20px-tb padding-30px-lr rounded">
                       <li>
                         <a href="#!">
-                        <i className="fas fa-map-marked-alt margin-10px-right text-theme-color"></i>
+                          <i className="fas fa-map-marked-alt margin-10px-right text-theme-color"></i>
                           {location}
                         </a>
                       </li>
@@ -82,10 +102,11 @@ export default function ListingDetails() {
                       </li>}
                       <li>
                         <a href="#!">
-                        <i className="fa fa-solid fa-user margin-10px-right text-theme-color"></i>
+                          <i className="fa fa-solid fa-user margin-10px-right text-theme-color"></i>
                           {name}
                         </a>
                       </li>
+
                     </ul>
                   </div>
                 </div>
@@ -165,12 +186,10 @@ export default function ListingDetails() {
                     Location
                   </h5>
                   <iframe
+                    title="map"
                     className="contact-map"
                     id="gmap_canvas"
-                    src="https://maps.google.com/maps?q=london&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                    scrolling="no"
-                    marginHeight={0}
-                    marginWidth={0}
+                    src={`https://maps.google.com/maps?q=${location}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
                   />
                 </div>
                 <div className="comment-form">
@@ -261,180 +280,14 @@ export default function ListingDetails() {
                       </div>
                     </form>
                   </div>
-                  <div className="widget">
+                  {itemSimilar && <div className="widget">
                     <div className="widget-title">
-                      <h3>Items similar</h3>
-                    </div>
-                    <div className="d-flex justify-content-between margin-15px-bottom">
-                      <span className="text-extra-dark-gray">Items :</span>
-                      <span>7</span>
+                      <h3>Item similar</h3>
                     </div>
                     <div className="listing-grid owl-carousel owl-theme owl-loaded owl-drag">
-                      <div className="owl-stage-outer">
-                        <div
-                          className="owl-stage"
-                          style={{
-                            WebkitTransform: "translate3d(-1005px, 0px, 0px)",
-                            msTransform: "translate3d(-1005px, 0px, 0px)",
-                            transform: "translate3d(-1005px, 0px, 0px)",
-                            WebkitTransition: "all 1s ease 0s",
-                            transition: "all 1s ease 0s",
-                            width: "2010px",
-                          }}
-                        >
-                          <div
-                            className="owl-item cloned"
-                            style={{ width: "325px", marginRight: "10px" }}
-                          >
-                            <a
-                              href="listing-details.html"
-                              className="card bg-img box-hover transition-none cover-background border-0 p-4 h-100"
-                              data-background="img/content/4.jpg"
-                              style={{
-                                backgroundImage: 'url("img/content/4.jpg")',
-                              }}
-                            >
-                              <div className="mt-auto position-relative z-index-9">
-                                <h5 className="text-white">
-                                  Hotel &amp; Hostel
-                                </h5>
-                                <hr className="border-color-light-white" />
-                                <div className="position-relative z-index-9 text-white">
-                                  <span className="ti-location-pin text-primary" />{" "}
-                                  6 Locations
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                          <div
-                            className="owl-item cloned"
-                            style={{ width: "325px", marginRight: "10px" }}
-                          >
-                            <a
-                              href="listing-details.html"
-                              className="card box-hover transition-none bg-img cover-background border-0 p-4 h-100"
-                              data-background="img/content/6.jpg"
-                              style={{
-                                backgroundImage: 'url("img/content/6.jpg")',
-                              }}
-                            >
-                              <div className="mt-auto z-index-9">
-                                <h5 className="text-white">
-                                  Food &amp; Drinks
-                                </h5>
-                                <hr className="border-color-light-white" />
-                                <div className="position-relative z-index-9 text-white">
-                                  <span className="ti-location-pin text-primary" />{" "}
-                                  8 Locations
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                          <div
-                            className="owl-item"
-                            style={{ width: "325px", marginRight: "10px" }}
-                          >
-                            <a
-                              href="listing-details.html"
-                              className="card bg-img box-hover transition-none cover-background border-0 p-4 h-100"
-                              data-background="img/content/4.jpg"
-                              style={{
-                                backgroundImage: 'url("img/content/4.jpg")',
-                              }}
-                            >
-                              <div className="mt-auto position-relative z-index-9">
-                                <h5 className="text-white">
-                                  Hotel &amp; Hostel
-                                </h5>
-                                <hr className="border-color-light-white" />
-                                <div className="position-relative z-index-9 text-white">
-                                  <span className="ti-location-pin text-primary" />{" "}
-                                  6 Locations
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                          <div
-                            className="owl-item active"
-                            style={{ width: "325px", marginRight: "10px" }}
-                          >
-                            <a
-                              href="listing-details.html"
-                              className="card box-hover transition-none bg-img cover-background border-0 p-4 h-100"
-                              data-background="img/content/6.jpg"
-                              style={{
-                                backgroundImage: 'url("img/content/6.jpg")',
-                              }}
-                            >
-                              <div className="mt-auto z-index-9">
-                                <h5 className="text-white">
-                                  Food &amp; Drinks
-                                </h5>
-                                <hr className="border-color-light-white" />
-                                <div className="position-relative z-index-9 text-white">
-                                  <span className="ti-location-pin text-primary" />{" "}
-                                  8 Locations
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                          <div
-                            className="owl-item cloned"
-                            style={{ width: "325px", marginRight: "10px" }}
-                          >
-                            <a
-                              href="listing-details.html"
-                              className="card bg-img box-hover transition-none cover-background border-0 p-4 h-100"
-                              data-background="img/content/4.jpg"
-                              style={{
-                                backgroundImage: 'url("img/content/4.jpg")',
-                              }}
-                            >
-                              <div className="mt-auto position-relative z-index-9">
-                                <h5 className="text-white">
-                                  Hotel &amp; Hostel
-                                </h5>
-                                <hr className="border-color-light-white" />
-                                <div className="position-relative z-index-9 text-white">
-                                  <span className="ti-location-pin text-primary" />{" "}
-                                  6 Locations
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                          <div
-                            className="owl-item cloned"
-                            style={{ width: "325px", marginRight: "10px" }}
-                          >
-                            <a
-                              href="listing-details.html"
-                              className="card box-hover transition-none bg-img cover-background border-0 p-4 h-100"
-                              data-background="img/content/6.jpg"
-                              style={{
-                                backgroundImage: 'url("img/content/6.jpg")',
-                              }}
-                            >
-                              <div className="mt-auto z-index-9">
-                                <h5 className="text-white">
-                                  Food &amp; Drinks
-                                </h5>
-                                <hr className="border-color-light-white" />
-                                <div className="position-relative z-index-9 text-white">
-                                  <span className="ti-location-pin text-primary" />{" "}
-                                  8 Locations
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="owl-nav disabled">
-                        <div className="owl-prev">prev</div>
-                        <div className="owl-next">next</div>
-                      </div>
-                      <div className="owl-dots disabled" />
+                    <ItemCardGrid item={itemSimilar} className="margin-30px-bottom"/>
                     </div>
-                  </div>
+                  </div>}
                   <div className="widget">
                     <div className="widget-title">
                       <h3>Information</h3>
@@ -446,7 +299,7 @@ export default function ListingDetails() {
                           <i className="fa fa-envelope" /> {email}
                         </li>}
                         <li>
-                        <i className="fas fa-map-marked-alt text-theme-color"></i> {location}
+                          <i className="fas fa-map-marked-alt text-theme-color"></i> {location}
                         </li>
                       </ul>
                     </div>

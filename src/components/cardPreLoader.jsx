@@ -1,28 +1,14 @@
 
-export default function CardPreLoader({ mode }) {
+export default function CardPreLoader({Length = 3 , mode, className = "margin-30px-bottom col-md-6" }) {
 
     return (
-        <div className="row">
-            <div className={`margin-30px-bottom ${mode === "grid" ? "col-md-6" : "col-md-12"}`}>
+        Array(Length).fill().map((_, index) => (
+            <div key={index} className={className}>
                 <div className="wrapper">
                     <div className={`card-loader card-loader--tabs ${mode === "grid" ? "" : "card-loader-right"}`}></div>
                 </div>
             </div>
-            <div className={`margin-30px-bottom ${mode === "grid" ? "col-md-6" : "col-md-12"}`}>
-                <div className="wrapper">
-                    <div className={`card-loader card-loader--tabs ${mode === "grid" ? "" : "card-loader-right"}`}></div>
-                </div>
-            </div>
-            <div className={`margin-30px-bottom ${mode === "grid" ? "col-md-6" : "col-md-12"}`}>
-                <div className="wrapper">
-                    <div className={`card-loader card-loader--tabs ${mode === "grid" ? "" : "card-loader-right"}`}></div>
-                </div>
-            </div>
-            <div className={`margin-30px-bottom ${mode === "grid" ? "col-md-6" : "col-md-12"}`}>
-                <div className="wrapper">
-                    <div className={`card-loader card-loader--tabs ${mode === "grid" ? "" : "card-loader-right"}`}></div>
-                </div>
-            </div>
-        </div>
+        ))
+
     )
 }

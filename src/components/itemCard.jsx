@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
 
-function ItemCardGrid({ item }) {
+function ItemCardGrid({ item , className = "col-md-6 margin-30px-bottom"}) {
     return (
-        <div key={item._idItem} className="col-md-6 margin-30px-bottom">
-            <Link to={`listingDetails/${item._idItem}`} className={`card bg-img box-hover cover-background border-0 p-4 h-100 ${!item.img ? "item-img-empty" : ""}`} style={item.img ? { backgroundImage: `url(${item.img})` } : {}}>
+        <div key={item._idItem} className={className}>
+            <Link to={`/listing/listingDetails/${item._idItem}`} className={`card bg-img box-hover cover-background border-0 p-4 h-100 ${!item.img ? "item-img-empty" : ""}`} style={item.img ? { backgroundImage: `url(${item.img})` } : {}}>
                 <div className="mt-auto z-index-9">
                     <h5 className="text-white">{item.nameItem}</h5>
                     <hr className="border-color-light-white" />

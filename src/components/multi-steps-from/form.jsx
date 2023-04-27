@@ -42,8 +42,7 @@ export default function Form() {
     // location step (seconde step)
     let [locationData, setLocationData] = useState({
         place: { value: itemDetails.item_place[0]._idPlace, valid: true, errorMsg: "" },
-        address: { value: "", valid: false, errorMsg: "" },
-        zipCode: { value: "", valid: false, errorMsg: "" },
+        address: { value: "", valid: false, errorMsg: "" }
     })
 
     // image step (third step)

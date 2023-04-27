@@ -18,7 +18,6 @@ export default function Header() {
     setSubmenuIsOpen(!submenuIsOpen)
   }
 
-  
   return (
     <>
 
