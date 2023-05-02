@@ -19,7 +19,6 @@ import { ProtectedRoute, CheckAuthRoute } from './utils/protectedRoute'
 import React, { useEffect, useState } from 'react';
 import { PreLoaderMain } from './components/preLoaderPage';
 import { ItemDtProvider } from './utils/contexts/ItemDetailsContext';
-import { SearchParamsProvider } from './utils/contexts/searchContext';
 
 function App() {
 
@@ -35,7 +34,6 @@ function App() {
   return (
     <>
       <UserProvider value={user}>
-        <SearchParamsProvider>
           <Header />
           {isLoading && <PreLoaderMain />}
           <Routes>
@@ -66,7 +64,6 @@ function App() {
             <Route path='*' element={<PageNotFound />} />
             <Route path='notFound' element={<PageNotFound />} />
           </Routes>
-        </SearchParamsProvider>
       </UserProvider>
       <TopButton />
       <Footer />

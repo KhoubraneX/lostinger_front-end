@@ -12,12 +12,10 @@ export default function ListingDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  let fetchSimilarItem = async (idItem, brand, categorie, type) => {
+  let fetchSimilarItem = async (idItem, categorie) => {
     let dataSend = {
       "_idItem": idItem,
-      "brand": brand,
-      "nameCategorie": categorie,
-      "nameType": type
+      "nameCategorie": categorie
     }
     try {
       let { data } = await axios.post("/space/api/items?target=similarItem", JSON.stringify(dataSend))
@@ -38,7 +36,7 @@ export default function ListingDetails() {
         let { data } = await axios.get(`/space/api/items/${id}`);
         if (isMounted) {
           setItemDetails(data);
-          await fetchSimilarItem(data["_idItem"], data["brand"], data["nameCategorie"], data["nameType"])
+          await fetchSimilarItem(data["_idItem"], data["nameCategorie"])
         }
       } catch ({ response }) {
         if (response.status === 404) {

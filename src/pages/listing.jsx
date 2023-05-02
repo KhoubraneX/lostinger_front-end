@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import ListingRight from "../components/lisitng-right";
 import ListingGrid from "../components/listing-grid";
 import PageTitleSection from "../components/pageTitleSection";
@@ -8,13 +8,15 @@ import FilterBrand from "../components/srearch/filter-brand";
 import FilterSearch from "../components/srearch/filter-search";
 // import FilterAdditional from "../components/srearch/fillter-additional"; 
 import ViewType from "../components/viewType";
-import { useSearchContext } from "../utils/contexts/searchContext";
+import { useSearchParams } from "react-router-dom";
+
 
 
 export default function Listing() {
 
-  // get search data from context
-  let { searchParam } = useSearchContext()
+  // get search data from url
+  const [searchParams] = useSearchParams();
+  
   const [items, setItems] = useState(null)
   // fetch data
   useLayoutEffect(() => {
@@ -28,7 +30,7 @@ export default function Listing() {
           setItems(data)
           setFilteredData(data);
           // eslint-disable-next-line no-sparse-arrays
-          filterData(...[searchParam.location , searchParam.name , searchParam.category , , , , , data])
+          filterData(...[searchParams.get('location') ?? "" , searchParams.get('name') ?? "" , searchParams.get('category') ?? "" , searchParams.get('place') ?? "" , , , , data])
         }
       } catch (error) {
         console.log(error);
@@ -57,21 +59,21 @@ export default function Listing() {
 
   // handel search
   const [searchValueByName, setSearchValueByName] = useState({
-    value: searchParam.name
+    value: searchParams.get('name') ?? ""
   });
   const [searchValueByLocation, setSearchValueByLocation] = useState({
-    value: searchParam.location
+    value: searchParams.get('location') ?? ""
   });
   const [searchValueByCategory, setSearchValueByCategory] = useState({
-    value: searchParam.category
+    value: searchParams.get('category') ?? ""
   });
   const [searchValueByPlace, setSearchValueByPlace] = useState({
-    value: searchParam.place
+    value: searchParams.get('place') ?? ""
   });
   const [searchValueByStatus, setSearchValueByStatus] = useState({
-    value: searchParam.status
+    value:  ""
   });
-  const [searchValueByBrand, setSearchValueByBrand] = useState(searchParam.brand);
+  const [searchValueByBrand, setSearchValueByBrand] = useState("");
 
   const [filteredData, setFilteredData] = useState(items);
 
@@ -117,7 +119,7 @@ export default function Listing() {
     }
   }
   // sorting order status
-  const [sortOrder, setSortOrder] = useState(searchParam.sortBy);
+  const [sortOrder, setSortOrder] = useState("");
   const handleSortChange = ({ target }) => {
     setSortOrder(target.value);
 

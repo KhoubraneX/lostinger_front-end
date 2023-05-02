@@ -1,5 +1,6 @@
 import { createContext , useContext , useState, useLayoutEffect } from "react";
-import { getUserIpAddr } from "../getUserIp";
+import { PreLoaderMain } from "../../components/preLoaderPage";
+import axios from "../../api/axios";
 
 
 const UserIpContext = createContext(null)
@@ -13,12 +14,12 @@ export default function UserIpProvider({ children }) {
     useLayoutEffect(() => {
         let isMounted = true
         let controller = new AbortController()
-
         const fetchUser = async () => {
-            let ipAddress = await getUserIpAddr();
+            let { data : ipAddress } = await axios.get(`http://ip-api.com/json/`)
             isMounted && setUserIp(ipAddress); 
         }
-    fetchUser()
+
+        fetchUser()
         return () => {
             isMounted = false
             controller.abort()
@@ -27,6 +28,7 @@ export default function UserIpProvider({ children }) {
 
 return (
     <>
+    {!userIp && <PreLoaderMain/>}
     {userIp && <UserIpContext.Provider value={userIp}>
         { children }
     </UserIpContext.Provider>}

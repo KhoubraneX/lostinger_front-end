@@ -172,6 +172,7 @@ export default function Form() {
                 "brand": ItemBrand,
                 "_idType": itemType
             };
+            
             if (dataImg != null || dataImg != undefined) {
                 data.img = dataImg["data_url"]
             }

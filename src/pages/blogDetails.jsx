@@ -1,10 +1,63 @@
+import { useLayoutEffect, useState } from "react";
 import PageTitleSection from "../components/pageTitleSection";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "../api/axios";
+import { PreLoaderMain } from "../components/preLoaderPage";
 
 export default function BlogDetails() {
+  const [blogDetails, setBlogDetails] = useState(null);
+  const [blogsSimilar, setBlogsSimilar] = useState(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  let fetchSimilarBlogs = async (idBlog) => {
+    let dataSend = {
+      "_idBlog": idBlog
+    }
+    try {
+      let { data } = await axios.post("/space/api/blogs?target=similarBlogs", JSON.stringify(dataSend))
+      setBlogsSimilar(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  // get item details
+  useLayoutEffect(() => {
+    let isMounted = true;
+    let controller = new AbortController();
+
+    let fetchItems = async () => {
+      try {
+        let { data } = await axios.get(`/space/api/blogs/${id}`);
+        if (isMounted) {
+          setBlogDetails(data);
+          await fetchSimilarBlogs(data["_idBlog"])
+        }
+      } catch ({ response }) {
+        if (response.status === 404) {
+          navigate("/notFound");
+        }
+      }
+    };
+
+    fetchItems();
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
+
+  let {
+    _idBlog , img , title , description , likeCounte
+  } = blogDetails ?? "";
   return (
     <>
+    {blogDetails === null && <PreLoaderMain />}
       <PageTitleSection hrefText="Blog Details" />
-      <section className="blogs">
+      {blogDetails !== null && <section className="blogs">
         <div className="container">
           <div className="row">
             {/*  start blog left*/}
@@ -13,60 +66,19 @@ export default function BlogDetails() {
                 {/*  start post*/}
                 <div className="post">
                   <div className="post-img">
-                    <img src="img/blog/blog-7.jpg" alt className="rounded" />
+                    <img src={img} alt="" className="rounded" />
                   </div>
                   <div className="content">
                     <div className="blog-list-simple-text post-meta margin-20px-bottom">
                       <div className="post-title">
-                        <h5>The best food in new york</h5>
+                        <h5>{title}</h5>
                       </div>
                     </div>
                     <div className="margin-30px-bottom">
                       <p className="margin-30px-bottom">
-                        There are many variations of passages of Lorem Ipsum
-                        available, but the majority have suffered alteration in
-                        some form, by injected humour, or randomised words which
-                        don't look even slightly believable. If you are going to
-                        use a passage of Lorem Ipsum, you need to be sure there
-                        isn't anything embarrassing hidden in the middle of
-                        text.
-                      </p>
-                      <p className="font-size20 xs-font-size18 margin-30px-bottom line-height-30 text-theme-color padding-40px-left xs-padding-20px-left">
-                        "It is a long established fact that a reader will be
-                        distracted by the readable content."
-                      </p>
-                      <p>
-                        It is a long established fact that a reader will be
-                        distracted by the readable content of a page when
-                        looking at its layout. The point of using Lorem Ipsum is
-                        that it has a more-or-less normal distribution of
-                        letters, as opposed to using 'Content here, content
-                        here', making it look like readable English. Many
-                        desktop publishing packages and web page editors.
+                        {description}
                       </p>
                     </div>
-                    <div className="row margin-30px-bottom">
-                      <div className="col-6">
-                        <img
-                          src="img/blog/blog-11.jpg"
-                          className="rounded"
-                          alt
-                        />
-                      </div>
-                      <div className="col-6">
-                        <img
-                          src="img/blog/blog-12.jpg"
-                          className="rounded"
-                          alt
-                        />
-                      </div>
-                    </div>
-                    <p>
-                      It was popularised in the 1960s with the release of
-                      Letraset sheets containing Lorem Ipsum passages, and more
-                      recently with desktop publishing software like Aldus
-                      PageMaker including versions of Lorem Ipsum.
-                    </p>
                     <div className="share-post">
                       <span>Share Post</span>
                       <ul>
@@ -115,7 +127,7 @@ export default function BlogDetails() {
                 </div>
                 {/* end pager */}
                 {/*  start comment*/}
-                <div className="comments-area">
+                {/* <div className="comments-area">
                   <div className="title-g margin-30px-bottom">
                     <h3>Comments</h3>
                   </div>
@@ -123,7 +135,7 @@ export default function BlogDetails() {
                     <div className="author-thumb">
                       <img
                         src="img/blog/01.png"
-                        alt
+                        alt=""
                         className="rounded-circle width-85 xs-width-100"
                       />
                     </div>
@@ -146,7 +158,7 @@ export default function BlogDetails() {
                     <div className="author-thumb">
                       <img
                         src="img/blog/02.png"
-                        alt
+                        alt=""
                         className="rounded-circle width-85 xs-width-100"
                       />
                     </div>
@@ -169,7 +181,7 @@ export default function BlogDetails() {
                     <div className="author-thumb">
                       <img
                         src="img/blog/03.png"
-                        alt
+                        alt=""
                         className="rounded-circle width-85 xs-width-100"
                       />
                     </div>
@@ -188,10 +200,10 @@ export default function BlogDetails() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* end comment*/}
                 {/*  start form*/}
-                <div className="comment-form">
+                {/* <div className="comment-form">
                   <div className="title-g margin-30px-bottom">
                     <h3>Post a Comment</h3>
                   </div>
@@ -236,7 +248,7 @@ export default function BlogDetails() {
                       </div>
                     </div>
                   </form>
-                </div>
+                </div> */}
                 {/*  end form*/}
               </div>
             </div>
@@ -245,102 +257,35 @@ export default function BlogDetails() {
             <div className="col-lg-4 col-md-12 padding-30px-left sm-padding-15px-left">
               <div className="side-bar">
                 <div className="widget">
-                  <div className="shadow">
-                    <div className="padding-20px-all">
-                      <h5 className="card-title font-size20 margin-5px-bottom">
-                        About Us
-                      </h5>
-                      <p className="card-text border-bottom padding-20px-bottom">
-                        It is a long established fact that a reader will be
-                        distracted by the readable content.
-                      </p>
-                      <ul className="social-listing no-margin-bottom">
-                        <li>
-                          <a href=";">
-                            <i className="fab fa-facebook-f" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href=";">
-                            <i className="fab fa-twitter" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href=";">
-                            <i className="fab fa-instagram" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href=";">
-                            <i className="fab fa-linkedin-in" />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="widget">
                   <div className="widget-title margin-35px-bottom">
                     <h3>Recent Posts</h3>
                   </div>
-                  <div className="media margin-20px-bottom">
-                    <img
-                      src="img/blog/blog-8.jpg"
+                  {blogsSimilar && blogsSimilar.map(({img , _idBlog , title , createAt}) => (
+                    <div key={_idBlog} className="media margin-20px-bottom">
+                    <img style={{ height: "70px"}}
+                      src={img}
                       className="mr-3 border-radius-4"
-                      alt
+                      alt=""
                     />
                     <div className="media-body">
                       <h5 className="no-margin-top margin-5px-bottom font-size17">
-                        <a href="#" className="text-extra-dark-gray">
-                          Fitness for working people.
-                        </a>
+                        <Link to={`/blogDetails/${_idBlog}`} className="text-extra-dark-gray">
+                          {title}
+                        </Link>
                       </h5>
                       <span className="font-size14 text-theme-color">
-                        2 Jan, 2020
+                        {createAt}
                       </span>
                     </div>
                   </div>
-                  <div className="media margin-20px-bottom">
-                    <img
-                      src="img/blog/blog-9.jpg"
-                      className="mr-3 border-radius-4"
-                      alt
-                    />
-                    <div className="media-body">
-                      <h5 className="no-margin-top margin-5px-bottom font-size17">
-                        <a href="#" className="text-extra-dark-gray">
-                          Write as a chief learner
-                        </a>
-                      </h5>
-                      <span className="font-size14 text-theme-color">
-                        12 Jan, 2020
-                      </span>
-                    </div>
-                  </div>
-                  <div className="media">
-                    <img
-                      src="img/blog/blog-10.jpg"
-                      className="mr-3 border-radius-4"
-                      alt
-                    />
-                    <div className="media-body">
-                      <h5 className="no-margin-top margin-5px-bottom font-size17">
-                        <a href="#" className="text-extra-dark-gray">
-                          How to guide people
-                        </a>
-                      </h5>
-                      <span className="font-size14 text-theme-color">
-                        17 Feb, 2020
-                      </span>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
             {/*  end blog right*/}
           </div>
         </div>
-      </section>
+      </section>}
     </>
   );
 }

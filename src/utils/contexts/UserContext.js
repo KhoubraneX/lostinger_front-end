@@ -2,8 +2,6 @@ import { createContext , useContext , useState, useLayoutEffect } from "react";
 import { decodeToken } from "react-jwt";
 import { checkToken } from "../authServices";
 import { PreLoaderMain } from "../../components/preLoaderPage";
-import axios from "../../api/axios";
-import { getUserIpAddr } from "../getUserIp";
 
 
 const UserContext = createContext(null)
@@ -29,7 +27,6 @@ export function UserProvider({ children }) {
             let decode = decodeToken(jwt)
             let currentUser = {...user}
             currentUser = decode
-            currentUser.ipAddress = await getUserIpAddr();
             isMounted && setUser(currentUser);
         } else {
             setUser(false)

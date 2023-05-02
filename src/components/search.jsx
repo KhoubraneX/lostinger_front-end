@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useSearchContext } from "../utils/contexts/searchContext"
+
 import { Link, useNavigate } from "react-router-dom";
 import LocationSearchInput from "./map";
 import { useItemDtContext } from "../utils/contexts/ItemDetailsContext";
 
 
 function Search() {
-    let {searchParam , updateSearchParams } = useSearchContext()
+    const queryParams = new URLSearchParams();
 
     let dtData = useItemDtContext()
 
@@ -30,16 +30,17 @@ function Search() {
 
     const handelFormSearch = (event) => {
         event.preventDefault()
-        updateSearchParams({
-            name: searchName,
-            location: searchLocation,
-            category: searchCategory,
-            brand: "",
-            status: "",
-            place: "",
-            sortBy: "",
-        })
-        Navigate("/listing")
+        if (searchName) {
+            queryParams.append('name', searchName);
+        }
+        if (searchLocation) {
+            queryParams.append('location', searchLocation);
+        }
+        if (searchCategory) {
+            queryParams.append('category', searchCategory);
+        }
+
+        Navigate(`/listing?${queryParams.toString()}`);
     }
 
     return (
@@ -50,12 +51,12 @@ function Search() {
                         <input type="text" value={searchName} onChange={handleNameChange} className="form-control" id="inlineFormInputName" placeholder="What item you lost?" />
                     </div>
                     <div className="col-md-3 my-1">
-                        <LocationSearchInput placeholder='Search By Places' value={searchLocation} handleLocationChange={handleLocationChange}/>
+                        <LocationSearchInput placeholder='Search By Places' value={searchLocation} handleLocationChange={handleLocationChange} />
                     </div>
                     <div className="col-md-3 my-1">
                         <select value={searchCategory} onChange={handleCategoryChange} className="form-control" id="exampleFormControlSelect2">
                             <option value="">All Category</option>
-                            {dtData && dtData.item_category.map(({nameCategorie , _idCategory}) => (
+                            {dtData && dtData.item_category.map(({ nameCategorie, _idCategory }) => (
                                 <option key={_idCategory} value={nameCategorie}>{nameCategorie}</option>
                             ))}
                         </select>
@@ -71,18 +72,13 @@ function Search() {
 
 function PopularSearchs() {
 
-    let {searchParam , updateSearchParams } = useSearchContext()
 
     let Navigate = useNavigate()
 
     function handelClick(value) {
-        updateSearchParams({
-            ...searchParam ,
-            name : value
-        })
-        Navigate("/listing")
+        Navigate(`/listing?name=${value}`)
     }
-    
+
     return (
         <div className="margin-40px-top xs-margin-30px-top">
             <span className="margin-10px-right text-white xs-display-block xs-margin-10px-bottom">Popular Searchs</span>

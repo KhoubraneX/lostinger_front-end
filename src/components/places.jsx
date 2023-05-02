@@ -1,19 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useSearchContext } from "../utils/contexts/searchContext";
 
 export default function Places() {
 
 
-  let {searchParam , updateSearchParams } = useSearchContext()
+
 
     let Navigate = useNavigate()
 
     function handelClick(value) {
-        updateSearchParams({
-            ...searchParam ,
-            place : value
-        })
-        Navigate("/listing")
+        Navigate(`/listing?place=${value}`)
     }
     return (
         <>
