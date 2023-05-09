@@ -17,7 +17,6 @@ export default function BlogDetails() {
     try {
       let { data } = await axios.post("/space/api/blogs?target=similarBlogs", JSON.stringify(dataSend))
       setBlogsSimilar(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useUserContext } from "../utils/contexts/UserContext";
+import { logout } from "../utils/logout";
 
 export default function Header() {
 
   let user = useUserContext()
 
-  const [menuIsOpen , setmenuIsOpen] = useState(false);
-  const [submenuIsOpen , setSubmenuIsOpen] = useState(false);
+  const [menuIsOpen, setmenuIsOpen] = useState(false);
+  const [submenuIsOpen, setSubmenuIsOpen] = useState(false);
 
 
   let handelOpenmenu = () => {
     setmenuIsOpen(!menuIsOpen)
   }
-  
+
   let handelOpensubmenu = () => {
     setSubmenuIsOpen(!submenuIsOpen)
   }
@@ -21,11 +22,11 @@ export default function Header() {
   return (
     <>
 
-        
+
       {/* start header section */}
       <header>
         <div className="navbar-default">
-          
+
           {/* start top search */}
           <div className="top-search bg-theme">
             <div className="container">
@@ -78,9 +79,9 @@ export default function Header() {
                     </div>
                     <div className={`navbar-toggler ${menuIsOpen ? "menu-opened" : ""}`} onClick={handelOpenmenu} />
                     {/* start menu area */}
-                    <ul className={`navbar-nav ml-auto ${menuIsOpen ? "open" : ""}`}  id="nav">
+                    <ul className={`navbar-nav ml-auto ${menuIsOpen ? "open" : ""}`} id="nav">
                       <li className={`has-sub ${submenuIsOpen ? "active" : ""}`}>
-                        <span className={`submenu-button ${submenuIsOpen ? "submenu-opened" : ""}`} onClick={handelOpensubmenu}/>
+                        <span className={`submenu-button ${submenuIsOpen ? "submenu-opened" : ""}`} onClick={handelOpensubmenu} />
                         <Link>Pages</Link>
                         <ul className={`${submenuIsOpen ? "open" : ""}`}>
                           <li>
@@ -94,26 +95,52 @@ export default function Header() {
                       <li>
                         <Link to="Blog">Blog</Link>
                       </li>
-                      {user && <li>
-                        <Link to="/dashboard">Dashboard</Link>
-                      </li>}
                       {!user && <li>
                         <Link to="registration">Register</Link>
                       </li>}
                       {!user && <li>
-                            <Link to="login">Login</Link>
-                          </li>}
+                        <Link to="login">Login</Link>
+                      </li>}
                     </ul>
                     {/* end menu area */}
                     {/* start attribute navigation */}
                     <div className="attr-nav sm-no-margin sm-margin-65px-right xs-margin-55px-right ml-auto">
-                      <ul className="search">
-                        <li className="search">
-                          <Link to="/listing">
-                            <i className="fas fa-search text-theme-color font-size18 margin-15px-top sm-no-margin-top" />
+                      {user && <ul className="search">
+                        <li className="dropdown user-dropdown">
+                          <Link
+                            to="/dashboard/my-profile"
+                            className="dropdown-toggle d-flex align-items-center"
+                            data-toggle="dropdown"
+                            role="button"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <img style={{height: "28px"}}
+                              src={require("../assets/img/avatars/profile.jpg")}
+                              alt=""
+                              className="rounded-circle"
+                            />
+                            <p className="m-0 ml-2">{user.name}</p>
                           </Link>
+                          <ul className="dropdown-menu show">
+                            <li>
+                              <Link to="/dashboard/my-profile">Profile</Link>
+                            </li>
+                            <li>
+                              <Link to="/dashboard/my-listing">my listing</Link>
+                            </li>
+                            <li>
+                              <Link to="/dashboard/message">
+                                <span className="badge float-right badge-danger">42</span>Messages
+                              </Link>
+                            </li>
+                            <li role="separator" className="divider" />
+                            <li>
+                              <Link to="" onClick={logout}>Log Out</Link>
+                            </li>
+                          </ul>
                         </li>
-                      </ul>
+                      </ul>}
                       <ul className="top-nav-area">
                         <li className="dropdown sm-no-margin-right">
                           <Link

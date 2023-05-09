@@ -4,6 +4,7 @@ import Pagination from "../components/pagination";
 import { useLayoutEffect, useState } from "react";
 import axios from "../api/axios";
 import BlogCard from "../components/blogCard";
+import CardPreLoader from "../components/cardPreLoader";
 
 export default function Blog() {
   const [blogs, setBlogs] = useState(null)
@@ -38,6 +39,7 @@ export default function Blog() {
         <div className="container">
           <div className="row">
             {/* start blog */}
+            {!blogs && <CardPreLoader Length={6} mode="grid" className="col-lg-4 col-md-6 col-sm-12 margin-30px-bottom" />}
             {blogs && blogs.map(({_idBlog , img , title , description , likeCounte}) => (
               <BlogCard key={_idBlog}  _idBlog={_idBlog}  img={img}  title={title}  description={description} likeCounte={likeCounte}/>
             ))}

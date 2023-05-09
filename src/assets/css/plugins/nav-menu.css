@@ -206,11 +206,23 @@ header {
 
 .attr-nav {
     float: right;
-    margin-left: 11px
+    margin-left: 11px;
+    display: flex;
+    align-items: center;
 }
 
 .attr-nav .dropdown-toggle:after {
     content: none
+}
+
+.attr-nav > ul > li.dropdown:hover ul.dropdown-menu {
+    left: 0;
+    top: 45px;
+}
+
+.attr-nav > ul li {
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .attr-nav>ul {
@@ -344,7 +356,7 @@ header {
         top: 66px;
         border-radius: 0;
         opacity: 0;
-        left: -225px
+        transition: 0.5s;
     }
 
     .attr-nav>ul>li.dropdown:hover ul.dropdown-menu {
@@ -808,9 +820,8 @@ header {
     }
 
     .attr-nav>ul>li.dropdown ul.dropdown-menu {
-        left: -193px;
-        top: 38px;
-        display: none !important
+        display: none !important;
+        transition: 0.5s;
     }
 
     .attr-nav>ul>li.dropdown.show ul.dropdown-menu {
