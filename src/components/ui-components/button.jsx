@@ -1,7 +1,7 @@
-export default function Button({text  , name , type = "button" , className}) {
+export default function Button({text  , name , type = "button" , className , clickable}) {
     return (
     <>
-        <button type={type} name={name} className={className}>{text}</button>
+        <button disabled={clickable} type={type} name={name} className={className}>{text}</button>
     </>
     )
 

@@ -26,7 +26,6 @@ export const MyListings = () => {
         });
         if (isMounted) {
           setItems(data)
-          console.log(data);
         }
       } catch (error) {
         console.log(error);
@@ -121,7 +120,7 @@ const confirm2 = () => {
           <div className="card-body">
             <ul className="list-unstyled">
             {!items && <CardPreLoader Length={6} mode="right" className='margin-30px-bottom'/>}
-              {items && items.map(({_idItem , nameType, img , creatAt , nameItem , nameCategorie}) => (
+              {items && items.length != 0 ? items.map(({_idItem , nameType, img , creatAt , nameItem , nameCategorie}) => (
                 <li className="position-relative booking">
                 <div className="media align-items-center">
                   <div className="mr-4">
@@ -159,7 +158,7 @@ const confirm2 = () => {
                   </Link>
                 </div>
               </li>
-              ))}
+              )) : <div className="w-100 text-center"><h4>No results found</h4></div>}
             </ul>
           </div>
         </div>

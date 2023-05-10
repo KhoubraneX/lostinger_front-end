@@ -165,7 +165,7 @@ export default function Register() {
                       </div>
                     </div>
                     <div className="col-md-12 margin-25px-top">
-                      <Button type="submit" className="butn btn-block" text={!isLoad ? "Register" : <Spinner />}></Button>
+                      <Button type="submit" className="butn btn-block" disabled={true} text={!isLoad ? "Register" : <Spinner />}></Button>
                     </div>
                     <div className="col-md-12 text-center margin-25px-top">
                       <span>Already have an account? <Link to="/login">Login</Link></span>

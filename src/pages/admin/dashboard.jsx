@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 const Dashboard = () => {
 
     return (
-        <div className="page-container" style={{ height: "calc(100vh - 90px - 75px)" }}>
+        <div className="page-container" style={{ height: "calc(100vh - 90px)" }}>
             <Helmet>
                 <title>Dashboard</title>
             </Helmet>
