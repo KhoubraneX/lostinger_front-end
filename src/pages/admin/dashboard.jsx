@@ -2,6 +2,7 @@ import SideBar from "../../components/dashboard/sideBar";
 import { Helmet } from "react-helmet";
 import  "../../assets/dashboard/css/styles.css"
 import { Outlet } from "react-router-dom";
+import { ItemDtProvider } from "../../utils/contexts/ItemDetailsContext";
 const Dashboard = () => {
 
     return (

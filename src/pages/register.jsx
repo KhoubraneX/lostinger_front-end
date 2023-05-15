@@ -5,6 +5,8 @@ import { useState } from 'react'
 import axios from '../api/axios'
 import Button from '../components/ui-components/button'
 import Spinner from '../components/spinner'
+import { decodeToken } from 'react-jwt'
+import { ChatRegister } from '../utils/authChat'
 
 export default function Register() {
   const [name, setName] = useState({
@@ -104,9 +106,12 @@ export default function Register() {
 
           let { jwt, refresh_token } = response.data
           //
+          let decode = decodeToken(jwt)
+          ChatRegister(decode.sub.toString(), decode.email)
+
           localStorage.setItem("jwt", jwt)
           localStorage.setItem("refresh_token", refresh_token)
-          //
+
           setTimeout(() => {
             window.location = '/';
             setIsLoad(false)

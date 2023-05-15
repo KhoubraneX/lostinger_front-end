@@ -26,38 +26,6 @@ export default function Header() {
       {/* start header section */}
       <header>
         <div className="navbar-default">
-
-          {/* start top search */}
-          <div className="top-search bg-theme">
-            <div className="container">
-              <form
-                className="search-form"
-                action="https://finders.websitelayout.net/search.html"
-                method="GET"
-                acceptCharset="utf-8"
-              >
-                <div className="input-group">
-                  <span className="input-group-addon cursor-pointer">
-                    <button
-                      className="search-form_submit fas fa-search font-size18 text-white"
-                      type="submit"
-                    />
-                  </span>
-                  <input
-                    type="text"
-                    className="search-form_input form-control"
-                    name="s"
-                    autoComplete="off"
-                    placeholder="Type & hit enter..."
-                  />
-                  <span className="input-group-addon close-search">
-                    <i className="fas fa-times font-size18 margin-5px-top" />
-                  </span>
-                </div>
-              </form>
-            </div>
-          </div>
-          {/* end top search */}
           <div className="container">
             <div className="row align-items-center">
               <div className="col-md-12">
@@ -116,7 +84,7 @@ export default function Header() {
                             aria-expanded="false"
                           >
                             <img style={{height: "28px"}}
-                              src={require("../assets/img/avatars/profile.jpg")}
+                              src={require("../assets/img/avatars/user.png")}
                               alt=""
                               className="rounded-circle"
                             />

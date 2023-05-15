@@ -5,12 +5,20 @@ import PageTitleSection from "../components/pageTitleSection";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import { ItemCardGrid } from "../components/itemCard";
+import { useUserContext } from "../utils/contexts/UserContext";
+import { CometChat } from "@cometchat-pro/chat";
+import Button from "../components/ui-components/button";
+import Spinner from "../components/spinner";
+import showToastMessage from "../utils/toast";
 
 export default function ListingDetails() {
+  const user = useUserContext()
   const [itemDetails, setItemDetails] = useState(null);
   const [itemSimilar, setItemSimilar] = useState(null);
+  const [message, setMessage] = useState("");
+  const [isLoad, setIsLoad] = useState(false)
   const { id } = useParams();
-  const navigate = useNavigate();
+  const Navigate = useNavigate()
 
   let fetchSimilarItem = async (idItem, categorie) => {
     let dataSend = {
@@ -40,7 +48,7 @@ export default function ListingDetails() {
         }
       } catch ({ response }) {
         if (response.status === 404) {
-          navigate("/notFound");
+          Navigate("/notFound");
         }
       }
     };
@@ -52,9 +60,36 @@ export default function ListingDetails() {
     };
   }, []);
 
+  let handelSendMessage = (e) => {
+    e.preventDefault()
+    setIsLoad(true)
+    const receiverID = itemDetails._idUser.toString(); // Replace with the actual receiver user ID
+    const messageText = message; // Replace with the actual message content
+
+    const textMessage = new CometChat.TextMessage(
+      receiverID,
+      messageText,
+      CometChat.RECEIVER_TYPE.USER
+    );
+
+    CometChat.sendMessage(textMessage)
+      .then(message => {
+        // The message has been sent successfully
+        setIsLoad(false)
+        Navigate(`/dashboard/message`)
+      })
+      .catch(error => {
+        // There was an error while sending the message
+        showToastMessage("Error sending message")
+      });
+}
+
+  let handelMessageChnage = ({target}) => {
+    setMessage(target.value)
+  }
+
   let {
     nameCategorie,
-    nameType,
     namePlace,
     nameItem,
     description,
@@ -190,56 +225,10 @@ export default function ListingDetails() {
                     src={`https://maps.google.com/maps?q=${location}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
                   />
                 </div>
-                <div className="comment-form">
-                  <div className="title-g margin-30px-bottom">
-                    <h3>Send Message</h3>
-                  </div>
-                  <form action="#!" id="comment-form" method="post">
-                    <div className="controls">
-                      <div className="row">
-                        <div className="col-md-6 form-group">
-                          <input
-                            id="form_name"
-                            type="text"
-                            name="name"
-                            placeholder="Name"
-                            required="required"
-                          />
-                        </div>
-                        <div className="col-md-6 form-group">
-                          <input
-                            id="form_email"
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            required="required"
-                          />
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-md-12 form-group">
-                          <textarea
-                            id="form_message"
-                            name="message"
-                            placeholder="Message"
-                            rows={4}
-                            required="required"
-                            defaultValue={""}
-                          />
-                        </div>
-                        <div className="col-md-12">
-                          <button type="submit" className="butn">
-                            <span>Send Message</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
               </div>
               <div className="col-lg-4">
                 <div className="side-bar">
-                  <div className="widget">
+                  {itemDetails._idUser !== user.sub && <div className="widget">
                     <div className="widget-title">
                       <h3>Contact the founder</h3>
                     </div>
@@ -247,37 +236,21 @@ export default function ListingDetails() {
                       <div className="row">
                         <div className="form-group col-md-12">
                           <input
+                          value={message}
+                          onChange={handelMessageChnage}
                             type="text"
-                            name="name"
-                            id="res_name"
+                            name="message"
+                            id="message"
                             className="form-controllar border-radius-4"
-                            placeholder="Full Name"
-                          />
-                        </div>
-                        <div className="form-group col-md-12">
-                          <input
-                            type="email"
-                            name="email"
-                            id="res_email"
-                            className="form-controllar border-radius-4"
-                            placeholder="Email"
-                          />
-                        </div>
-                        <div className="form-group col-md-12">
-                          <input
-                            type="text"
-                            name="number"
-                            id="res_phone"
-                            className="form-controllar border-radius-4"
-                            placeholder="Phone Number"
+                            placeholder="message"
                           />
                         </div>
                         <div className="col-md-12">
-                          <button className="butn">send message</button>
+                        <Button type="submit" handelClick={handelSendMessage} className="butn" text={!isLoad ? "send message" : <Spinner />}></Button>
                         </div>
                       </div>
                     </form>
-                  </div>
+                  </div>}
                   {itemSimilar && <div className="widget">
                     <div className="widget-title">
                       <h3>Item similar</h3>

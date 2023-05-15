@@ -3,14 +3,12 @@ import CardPreLoader from '../../components/cardPreLoader'
 import axios from '../../api/axios'
 import { checkToken } from '../../utils/authServices'
 import { Link } from 'react-router-dom'
-import { ConfirmDialog } from 'primereact/confirmdialog'; // For <ConfirmDialog /> component
-import { confirmDialog } from 'primereact/confirmdialog'; // For confirmDialog method
-import { Toast } from 'primereact/toast';
+import showToastMessage from '../../utils/toast'
 
 export const MyListings = () => {
 
   const [items, setItems] = useState(null)
-  const toast = useRef(null);
+  
   // fetch data
   useLayoutEffect(() => {
     let isMounted = true
@@ -38,37 +36,8 @@ export const MyListings = () => {
       controller.abort()
     }
   }, [])
-  const accept = () => {
-    toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
-}
 
-const reject = () => {
-    toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
-}
-
-  const confirm1 = () => {
-    confirmDialog({
-        message: 'Are you sure you want to proceed?',
-        header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
-        accept,
-        reject
-    });
-};
-
-const confirm2 = () => {
-    confirmDialog({
-        message: 'Do you want to delete this record?',
-        header: 'Delete Confirmation',
-        icon: 'pi pi-info-circle',
-        acceptClassName: 'p-button-danger',
-        accept,
-        reject
-    });
-};
-
-
-  let deleteItem = (id) => {
+  let onHandeldeleteItem = (id) => {
     let currentItems = [...items]
     currentItems = currentItems.filter((e) => e._idItem !== id)
     setItems(currentItems)
@@ -81,12 +50,11 @@ const confirm2 = () => {
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
           },
         });
-        console.log(data);
+        showToastMessage("success" , "deleted successfully")
       } catch (error) {
-        console.log(error);
+        showToastMessage("error" , "somthing wrong")
       }
     }
-
     deleteItem()
   }
 
@@ -121,7 +89,7 @@ const confirm2 = () => {
             <ul className="list-unstyled">
             {!items && <CardPreLoader Length={6} mode="right" className='margin-30px-bottom'/>}
               {items && items.length != 0 ? items.map(({_idItem , nameType, img , creatAt , nameItem , nameCategorie}) => (
-                <li className="position-relative booking">
+                <li key={_idItem} className="position-relative booking">
                 <div className="media align-items-center">
                   <div className="mr-4">
                     <Link to={`/listing/listingDetails/${_idItem}`}>
@@ -153,7 +121,7 @@ const confirm2 = () => {
                     <i className="far fa-edit mr-2" />
                     Edit
                   </Link>
-                  <Link to="" onClick={() => deleteItem(_idItem)} className="btn-gray mr-2 ml-2">
+                  <Link to="" onClick={() => onHandeldeleteItem(_idItem)} className="btn-gray mr-2 ml-2">
                     <i className="far fa-times-circle mr-2" /> Delete
                   </Link>
                 </div>

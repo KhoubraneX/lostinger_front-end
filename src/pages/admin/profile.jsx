@@ -5,9 +5,7 @@ import { checkToken } from '../../utils/authServices'
 import Input from '../../components/ui-components/input'
 import Button from '../../components/ui-components/button'
 import Spinner from '../../components/spinner'
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import showToastMessage from '../../utils/toast'
 
 const Profile = () => {
 
@@ -79,27 +77,6 @@ const Profile = () => {
       controller.abort()
     }
   }, [])
-
-  const showToastMessage = (type = "success" , message = "successfully") => {
-    if (type === 'error') {
-      toast.error(message, {
-        position: toast.POSITION.BOTTOM_LEFT
-      });
-    } else if (type === 'info') {
-      toast.info(message, {
-        position: toast.POSITION.BOTTOM_LEFT
-      });
-    } else if (type === 'warn') {
-      toast.warn(message, {
-        position: toast.POSITION.BOTTOM_LEFT
-      });
-    } else {
-      toast.success(message, {
-        position: toast.POSITION.BOTTOM_LEFT
-      });
-    }
-  };
-
 
 
   let handelNameChange = ({ target }) => {
@@ -235,9 +212,7 @@ const Profile = () => {
               'Authorization': 'Bearer ' + localStorage.getItem("jwt")
             }
           });
-
-          console.log(response);
-
+          
           setTimeout(() => {
             setIsLoadPassword(false)
             showToastMessage("success" , "updated successfully")
@@ -278,13 +253,14 @@ const Profile = () => {
       <div id="main-wrapper">
         <div className="row">
           <div className="col-md-6" >
-            <div className="card card-white" style={{ minHeight: "475px" }}>
+            <div className="card card-white" style={{ minHeight: "500px" }}>
               <div className="card-heading clearfix border-bottom mb-4">
                 <h4 className="card-title">Basic Information</h4>
               </div>
-              <div className="card-body">
+              <div className="card-body position-relative">
+                {!userDt && <Spinner className='text-dark position-absolute' style={{left: "50%" , top : "50%"}}/>}
                 <div className="row">
-                  <div className="col-md-9">
+                  <div className="col">
                     {userDt && <form onSubmit={onSubmitChangeN_P}>
                       <div className="form-group">
                         <Input className={"form-control"} label={"name"} state={name} onHandelChange={handelNameChange} name="name" type="text" />
@@ -304,7 +280,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="card card-white" style={{ minHeight: "475px" }}>
+            <div className="card card-white" style={{ minHeight: "500px" }}>
               <div className="card-heading clearfix border-bottom mb-4">
                 <h4 className="card-title">Change Password</h4>
               </div>
@@ -330,16 +306,6 @@ const Profile = () => {
       </div>
       {/* end page main wrapper */}
     </div>
-        <ToastContainer position="bottom-left"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light"/>
     </>
   )
 }

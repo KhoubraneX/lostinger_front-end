@@ -4,7 +4,7 @@ import Home from './pages/home';
 import PageNotFound from './pages/notFound';
 import HowItWorks from './pages/howItWorks';
 import TopButton from './layout/topbutton';
-import { Navigate, Route, Routes , useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Login from './pages/login';
 import Register from './pages/register';
 import Listing from './pages/listing';
@@ -24,6 +24,16 @@ import { Message } from './pages/admin/message';
 import { MyListings } from './pages/admin/myListings';
 import Profile from './pages/admin/profile';
 import EditListing from './pages/admin/editListing';
+import { ToastContainer } from 'react-toastify';
+// chat config 
+import { CometChat } from "@cometchat-pro/chat";
+
+
+const appID = process.env.REACT_APP_COMETCHAT_APP_ID;
+const region = process.env.REACT_APP_COMETCHAT_APP_REGION;
+const appSetting = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(region).build();
+CometChat.init(appID, appSetting)
+
 function App() {
 
   const [user, setUser] = useState(null);
@@ -67,17 +77,29 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='*' element={<PageNotFound />} />
           <Route path='notFound' element={<PageNotFound />} />
-            <Route path='/dashboard' element={<Dashboard />} >
-                <Route path='' element={<Navigate to="my-listing" />}/>
-                <Route path='/dashboard/message' element={<Messages />} />
-                <Route path='/dashboard/message/:id' element={<Message />} />
-                <Route path='/dashboard/my-listing' element={<MyListings />} />
-                <Route path='/dashboard/my-listing/:id' element={<EditListing />} />
-                <Route path='/dashboard/my-profile' element={<Profile />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path='/dashboard' element={<ItemDtProvider><Dashboard /></ItemDtProvider>} >
+              <Route path='' element={<Navigate to="my-listing" />} />
+              <Route path='/dashboard/message' element={<Messages />} />
+              <Route path='/dashboard/message/:id' element={<Message />} />
+              <Route path='/dashboard/my-listing' element={<MyListings />} />
+              <Route path='/dashboard/my-listing/:id' element={<EditListing />} />
+              <Route path='/dashboard/my-profile' element={<Profile />} />
             </Route>
+          </Route>
         </Routes>
       </UserProvider>
       <TopButton />
+      <ToastContainer position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light" />
       {!location.pathname.includes("dashboard") && <Footer />}
     </>
   );

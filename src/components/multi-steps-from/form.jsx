@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../assets/css/multi-steps.scss";
 import ButtonSteps from "./button-steps";
 import Gallery from "./Gallery";
@@ -10,7 +10,7 @@ import axios from "../../api/axios";
 import { useItemDtContext } from "../../utils/contexts/ItemDetailsContext";
 import Spinner from "./spinner";
 import { useNavigate } from "react-router-dom";
-import { checkToken, refreshToken } from "../../utils/authServices";
+import { checkToken } from "../../utils/authServices";
 
 export default function Form() {
     let itemDetails = useItemDtContext()
@@ -32,7 +32,7 @@ export default function Form() {
     // overview step (first step)
     let [overviewData, setOverviewData] = useState({
         itemName: { value: "", valid: false, errorMsg: "" },
-        itemType: { value: itemDetails.item_type[0]._idType, valid: true, errorMsg: "" },
+        itemType: { value: itemDetails.item_type[0]._idType , valid: true, errorMsg: "" },
         itemCategory: { value: itemDetails.item_category[0]._idCategory, valid: true, errorMsg: "" },
         itemDate: { value: "", valid: false, errorMsg: "" },
         itemDesc: { value: "", valid: false, errorMsg: "" },
@@ -41,7 +41,7 @@ export default function Form() {
 
     // location step (seconde step)
     let [locationData, setLocationData] = useState({
-        place: { value: itemDetails.item_place[0]._idPlace, valid: true, errorMsg: "" },
+        place: { value: itemDetails.item_place[0]._idPlace , valid: true, errorMsg: "" },
         address: { value: "", valid: false, errorMsg: "" }
     })
 

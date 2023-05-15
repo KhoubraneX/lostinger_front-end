@@ -74,8 +74,7 @@ export default function Overview({overviewData , setOverviewData}) {
             </select>
             </div>
             <div className="form-group col-md-6">
-                <label className="bolder">Date</label>
-                <Input InputData={itemDate} onhandelChange={handelChange} nameInput="itemDate" typeInput="date"/>
+                <Input labelname={"Date"} InputData={itemDate} onhandelChange={handelChange} nameInput="itemDate" typeInput="date"/>
             </div>
             <div className="form-group col-md-6">
                 <Input labelname="Brand" InputData={ItemBrand} onhandelChange={handelChange} nameInput="ItemBrand" typeInput="text" placeholder="Ralph Lauren, Samsung, KitchenAid, etc."/>

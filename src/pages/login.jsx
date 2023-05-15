@@ -113,7 +113,7 @@ export default function Login() {
                       </div>
                     </div>
                   </div>
-                  {errorMsg && <div class="alert alert-danger" role="alert">{errorMsg}</div>}
+                  {errorMsg && <div className="alert alert-danger" role="alert">{errorMsg}</div>}
                   <div className="row">
                     <div className="col-sm-6 mb-2">
                       <div className="custom-control custom-checkbox text-left">

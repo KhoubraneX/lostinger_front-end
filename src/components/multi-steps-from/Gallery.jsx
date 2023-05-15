@@ -58,7 +58,6 @@ export default function Gallery({galleryData , setGalleryData}) {
                       <button className='btn-update' onClick={() => onImageUpdate(0)}><i className="fas fa-upload"></i></button>
                     </div>
                     }
-
                   </div>
                 </div>
               </div>

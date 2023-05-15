@@ -32,7 +32,6 @@ export function ItemDtProvider({ children }) {
 
 return (
   <>
-
     <ItemDtContext.Provider value={itemDetails}>
         { children }
     </ItemDtContext.Provider>

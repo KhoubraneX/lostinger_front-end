@@ -373,6 +373,11 @@ input[type=radio] {
     margin-bottom: 0
 }
 
+input.disabled {
+	background-color: #eee;
+	cursor: not-allowed;
+}
+
 .star i {
     margin-right: 0;
     font-size: .625rem;
