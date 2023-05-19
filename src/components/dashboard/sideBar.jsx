@@ -1,8 +1,12 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { logout } from '../../utils/logout'
+import { useUserContext } from '../../utils/contexts/UserContext'
 
 const SideBar = () => {
+
+  let user = useUserContext()
+
   return (
     <>
 <>
@@ -23,12 +27,14 @@ const SideBar = () => {
               <span>My Listing</span>
             </NavLink>
           </li>
-          {/* <li>
-            <a href="reviews.html">
+          {user.role === "admin" && <li>
+            <NavLink to="my-blog" href="reviews.html">
               <i className="menu-icon icon-star-empty" />
-              <span>Reviews</span>
-            </a>
-          </li>
+              <span>Blog</span>
+            </NavLink>
+          </li>}
+
+          {/*
           <li>
             <a href="bookmark.html">
               <i className="menu-icon icon-bookmarks" />

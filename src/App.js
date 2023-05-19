@@ -15,24 +15,24 @@ import Contact from './pages/contact';
 import Dashboard from './pages/admin/dashboard';
 import AddListing from './pages/addListing';
 import { UserProvider } from './utils/contexts/UserContext';
-import { ProtectedRoute, CheckAuthRoute } from './utils/protectedRoute'
+import { ProtectedRoute, CheckAuthRoute, ProtectedRouteAdmin } from './utils/protectedRoute'
 import React, { useEffect, useState } from 'react';
 import { PreLoaderMain } from './components/preLoaderPage';
 import { ItemDtProvider } from './utils/contexts/ItemDetailsContext';
 import { Messages } from './pages/admin/messages';
-import { Message } from './pages/admin/message';
 import { MyListings } from './pages/admin/myListings';
 import Profile from './pages/admin/profile';
 import EditListing from './pages/admin/editListing';
 import { ToastContainer } from 'react-toastify';
 // chat config 
-import { CometChat } from "@cometchat-pro/chat";
+
+import { MyBlogs } from './pages/admin/myBlogs';
+import AddBlog from './pages/admin/addBlog';
+import EditBlog from './pages/admin/editBlog';
 
 
-const appID = process.env.REACT_APP_COMETCHAT_APP_ID;
-const region = process.env.REACT_APP_COMETCHAT_APP_REGION;
-const appSetting = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(region).build();
-CometChat.init(appID, appSetting)
+
+
 
 function App() {
 
@@ -64,25 +64,30 @@ function App() {
             <Route path='/signup' element={<Register />} />
           </Route>
           <Route element={<ProtectedRoute />}>
-            <Route path='/addListing' element={<ItemDtProvider>
+            <Route path='/add-listing' element={<ItemDtProvider>
               <AddListing />
             </ItemDtProvider>} />
           </Route>
           <Route path='/listing' element={<ItemDtProvider>
             <Listing />
           </ItemDtProvider>} ></Route>
-          <Route path='/listing/listingDetails/:id' element={<ListingDetails />} />
-          <Route path='/blogDetails/:id' element={<BlogDetails />} />
+          <Route path='/listing/:id' element={<ListingDetails />} />
           <Route path='/blog' element={<Blog />} />
+          <Route path='/blog/:id' element={<BlogDetails />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='*' element={<PageNotFound />} />
-          <Route path='notFound' element={<PageNotFound />} />
+          <Route path='not-found' element={<PageNotFound />} />
           <Route element={<ProtectedRoute />}>
             <Route path='/dashboard' element={<ItemDtProvider><Dashboard /></ItemDtProvider>} >
               <Route path='' element={<Navigate to="my-listing" />} />
               <Route path='/dashboard/message' element={<Messages />} />
-              <Route path='/dashboard/message/:id' element={<Message />} />
               <Route path='/dashboard/my-listing' element={<MyListings />} />
+              <Route path='/dashboard/my-blog' element={<ProtectedRouteAdmin />} >
+                  <Route path='/dashboard/my-blog' element={<MyBlogs />} />
+                  <Route path='/dashboard/my-blog/add' element={<AddBlog />} />
+                  <Route path='/dashboard/my-blog/:id' element={<EditBlog />} />
+              </Route>
+
               <Route path='/dashboard/my-listing/:id' element={<EditListing />} />
               <Route path='/dashboard/my-profile' element={<Profile />} />
             </Route>

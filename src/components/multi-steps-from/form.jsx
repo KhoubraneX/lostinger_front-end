@@ -11,6 +11,7 @@ import { useItemDtContext } from "../../utils/contexts/ItemDetailsContext";
 import Spinner from "./spinner";
 import { useNavigate } from "react-router-dom";
 import { checkToken } from "../../utils/authServices";
+import showToastMessage from "../../utils/toast";
 
 export default function Form() {
     let itemDetails = useItemDtContext()
@@ -160,7 +161,7 @@ export default function Form() {
             dataFromSend[Prop] = value
         }
 
-        let { ItemBrand, address, dataImg, itemCategory, itemDate, itemDesc, itemName, itemType, place, zipCode } = dataFromSend
+        let { ItemBrand, address, dataImg, itemCategory, itemDate, itemDesc, itemName, itemType, place } = dataFromSend
         let sendData = () => {
             let data = {
                 "nameItem": itemName,
@@ -190,10 +191,12 @@ export default function Form() {
                 .then(({data}) => {
                     setTimeout(() => {
                         setLoadStatus(false)
+                        showToastMessage("success" , "added successfully")
                         Navigate(`/listing/listingDetails/${data.id}`)
                     }, 100)
                 })
                 .catch(({response}) => {
+                    showToastMessage("error" , "something wrong")
                     console.log(response);
                 });
 

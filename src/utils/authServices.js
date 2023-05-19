@@ -14,12 +14,13 @@ function refreshToken() {
             localStorage.removeItem("jwt")
             localStorage.removeItem("refresh_token")
             window.location = "/login"
+            console.log("you out");
         }
     };
     fetchData();
 }
 
-async function checkToken(token) {
+async function checkToken(token = localStorage.jwt) {
     try {
         await axios.post("http://localhost/space/api/auth/check", JSON.stringify({ token: token }))
         return true

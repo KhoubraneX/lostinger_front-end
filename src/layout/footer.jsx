@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
+
     return (
         <>
       <footer>
@@ -14,26 +17,26 @@ export default function Footer() {
                 <ul className="list-style-1 no-margin">
                   <li>
                     <span className="d-inline-block vertical-align-top font-size18"><i className="ti-location-pin text-theme-color" /></span>
-                    <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">74 Guild Street 542B, Great North Town MT.</span>
+                    <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">-</span>
                   </li>
                   <li>
                     <span className="d-inline-block vertical-align-top font-size18"><i className="ti-mobile text-theme-color" /></span>
-                    <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">4355 6567 789</span>
+                    <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">-</span>
                   </li>
                   <li>
                     <span className="d-inline-block vertical-align-top font-size18"><i className="ti-email text-theme-color" /></span>
-                    <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">example@yourname.com</span>
+                    <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">-</span>
                   </li>
                 </ul>
               </div>
               <div className="col-lg-2 col-sm-6 mobile-margin-40px-bottom">
                 <h3 className="footer-title-style1">Useful Links</h3>
                 <ul className="list-style-1 no-margin-bottom">
-                  <li><a href="index-2.html">Home</a></li>
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="admin/index.html">Dashboard</a></li>
-                  <li><a href="blog-grid.html">Blog</a></li>
-                  <li><a href="contact-us.html">Contact Us</a></li>
+                  <li><Link to="/">Home</Link></li>
+                  <li><Link to="how-it-works">how it work</Link></li>
+                  <li><Link to="dashboard">Dashboard</Link></li>
+                  <li><Link to="blog">Blog</Link></li>
+                  <li><Link to="contact">Contact Us</Link></li>
                 </ul>
               </div>
               <div className="col-lg-3 col-sm-6">
@@ -68,7 +71,7 @@ export default function Footer() {
               </ul>
             </div>
             <div className="float-left xs-width-100 text-center">
-              <p className="text-medium-gray font-weight-600 margin-5px-top xs-no-margin-top">© 2020 Finder is Powered by Chitrakoot Web</p>
+              <p className="text-medium-gray font-weight-600 margin-5px-top xs-no-margin-top">© {new Date().getFullYear()} Lostings</p>
             </div>
           </div>
         </div>

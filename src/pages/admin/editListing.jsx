@@ -46,7 +46,6 @@ const EditListing = () => {
     let controller = new AbortController();
 
     let fetchItems = async () => {
-      checkToken(localStorage.jwt);
       try {
         let { data } = await axios.get(`http://localhost/space/api/items/${id}?target=editMyItem`, {
           headers: {

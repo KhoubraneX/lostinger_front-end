@@ -159,8 +159,9 @@ const Profile = () => {
 
     if (isValidForm) {
       setIsValidN_P(false)
+      checkToken(localStorage.jwt)
+
       async function sendRequest() {
-        checkToken(localStorage.jwt)
         setIsLoad(true)
         try {
           const response = await axios.patch("/space/api/auth/updateUser", JSON.stringify({
@@ -200,8 +201,8 @@ const Profile = () => {
 
     if (isValidForm) {
       setIsvalidPassword(false)
+      checkToken(localStorage.jwt)
       async function sendRequest() {
-        checkToken(localStorage.jwt)
         setIsLoadPassword(true)
         try {
           const response = await axios.patch("/space/api/auth/updateUser", JSON.stringify({
@@ -215,7 +216,7 @@ const Profile = () => {
           
           setTimeout(() => {
             setIsLoadPassword(false)
-            showToastMessage("success" , "updated successfully")
+            showToastMessage("success" , "We’ve saved your profile changes.")
           }, 1000);
           
         } catch (error) {
@@ -269,7 +270,7 @@ const Profile = () => {
                         <Input className={"form-control"} label={"Phone"} state={phone} onHandelChange={handelPhoneChange} name="phone" type="text" />
                       </div>
                       <div className="form-group mb-4">
-                        <Input className={"form-control readonly"} label={"Email"} onHandelChange={handelEmailChange} state={{value: userDt.email}} name="Email" type="text" />
+                        <Input className={"form-control disabled"} label={"Email"} onHandelChange={handelEmailChange} state={{value: userDt.email}} name="Email" type="text" />
                           <small>For privacy reasons, the email address cannot be changed.</small>
                         </div>
                       <Button type="submit" clickable={!validN_P} className="btn btn-primary" text={!isLoad ? "Save Change" : <Spinner />}></Button>

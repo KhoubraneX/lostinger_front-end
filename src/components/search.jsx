@@ -56,8 +56,8 @@ function Search() {
                     <div className="col-md-3 my-1">
                         <select value={searchCategory} onChange={handleCategoryChange} className="form-control" id="exampleFormControlSelect2">
                             <option value="">All Category</option>
-                            {dtData && dtData.item_category.map(({ nameCategorie, _idCategory }) => (
-                                <option key={_idCategory} value={nameCategorie}>{nameCategorie}</option>
+                            {dtData && dtData.item_category.map(({ nameCategorie, _idCategory , item_count}) => (
+                                <option key={_idCategory} value={nameCategorie}>{nameCategorie} ({item_count})</option>
                             ))}
                         </select>
                     </div>

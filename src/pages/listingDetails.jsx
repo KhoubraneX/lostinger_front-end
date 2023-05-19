@@ -62,6 +62,8 @@ export default function ListingDetails() {
 
   let handelSendMessage = (e) => {
     e.preventDefault()
+    if (message.trim() === "") return;
+    
     setIsLoad(true)
     const receiverID = itemDetails._idUser.toString(); // Replace with the actual receiver user ID
     const messageText = message; // Replace with the actual message content
@@ -80,6 +82,7 @@ export default function ListingDetails() {
       })
       .catch(error => {
         // There was an error while sending the message
+        setIsLoad(false)
         showToastMessage("Error sending message")
       });
 }
@@ -228,7 +231,7 @@ export default function ListingDetails() {
               </div>
               <div className="col-lg-4">
                 <div className="side-bar">
-                  {itemDetails._idUser !== user.sub && <div className="widget">
+                  {user && itemDetails._idUser !== user.sub ? <div className="widget">
                     <div className="widget-title">
                       <h3>Contact the founder</h3>
                     </div>
@@ -250,7 +253,7 @@ export default function ListingDetails() {
                         </div>
                       </div>
                     </form>
-                  </div>}
+                  </div> : ""}
                   {itemSimilar && <div className="widget">
                     <div className="widget-title">
                       <h3>Item similar</h3>

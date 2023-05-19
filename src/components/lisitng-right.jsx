@@ -11,7 +11,7 @@ export default function ListingRight({items}) {
         {items && items.length === 0 && <div className="w-100 text-center">
              <h4>No results found</h4>
           </div>}
-        {items && items.length !== 0 && <Pagination />}
+        {/* {items && items.length !== 0 && <Pagination />} */}
 </div>
         </>
     )

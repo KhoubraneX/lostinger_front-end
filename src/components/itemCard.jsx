@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 function ItemCardGrid({ item , className = "col-md-6 margin-30px-bottom"}) {
     return (
         <div key={item._idItem} className={className}>
-            <Link to={`/listing/listingDetails/${item._idItem}`} className={`card bg-img box-hover cover-background border-0 p-4 h-100 ${!item.img ? "item-img-empty" : ""}`} style={item.img ? { backgroundImage: `url(${item.img})` } : {}}>
+            <Link to={`/listing/${item._idItem}`} className={`card bg-img box-hover cover-background border-0 p-4 h-100 ${!item.img ? "item-img-empty" : ""}`} style={item.img ? { backgroundImage: `url(${item.img})` } : {}}>
                 <div className="mt-auto z-index-9">
                     <h5 className="text-white">{item.nameItem}</h5>
                     <hr className="border-color-light-white" />
@@ -30,15 +30,15 @@ function ItemCardRight({ item }) {
                         <div className="card-body no-padding-tb">
                             <div className="d-flex justify-content-between align-items-center">
                                 <h5 className="card-title no-margin-bottom font-size22">
-                                    <Link to={`listingDetails/${item._idItem}`} className="text-extra-dark-gray">{item.nameItem}</Link>
+                                    <Link to={`/listing/${item._idItem}`} className="text-extra-dark-gray">{item.nameItem}</Link>
                                 </h5>
                                 <ul className="no-margin-bottom">
-                                    <li><Link to={`listingDetails/${item._idItem}`}>{item.nameType}</Link></li>
+                                    <li><Link to={`/listing/${item._idItem}`}>{item.nameType}</Link></li>
                                 </ul>
                             </div>
                             <span>{item.namePlace}</span>
                             <p className="margin-20px-tb sm-margin-10px-top">{item.description}</p>
-                            <Link to={`listingDetails/${item._idItem}`} className="text-theme-color">More details</Link>
+                            <Link to={`/listing/${item._idItem}`} className="text-theme-color">More details</Link>
                         </div>
                     </div>
                 </div>

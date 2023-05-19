@@ -1,11 +1,11 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import CardPreLoader from '../../components/cardPreLoader'
 import axios from '../../api/axios'
 import { checkToken } from '../../utils/authServices'
 import { Link } from 'react-router-dom'
 import showToastMessage from '../../utils/toast'
 
-export const MyListings = () => {
+export const MyBlogs = () => {
 
   const [items, setItems] = useState(null)
   
@@ -16,7 +16,7 @@ export const MyListings = () => {
     
     let fetchItems = async () => {
       try {
-        let { data } = await axios.get("http://localhost/space/api/items?target=myItems" , {
+        let { data } = await axios.get("http://localhost/space/api/blogs" , {
           headers: { 
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
           },
@@ -38,13 +38,13 @@ export const MyListings = () => {
 
   let onHandeldeleteItem = (id) => {
     let currentItems = [...items]
-    currentItems = currentItems.filter((e) => e._idItem !== id)
+    currentItems = currentItems.filter((e) => e._idBlog !== id)
     setItems(currentItems)
-
+    
     let deleteItem = async () => {
       checkToken(localStorage.jwt)
       try {
-        let { data } = await axios.delete(`http://localhost/space/api/items/${id}` , {
+        let { data } = await axios.delete(`http://localhost/space/api/blogs/${id}` , {
           headers: { 
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
           },
@@ -60,6 +60,7 @@ export const MyListings = () => {
   return (
     <>
     <div className="page-inner">
+      
   <div className="page-title">
     <h3 className="breadcrumb-header">My Listings</h3>
     <nav aria-label="breadcrumb">
@@ -71,10 +72,14 @@ export const MyListings = () => {
           <a href="index.html">Dashboard</a>
         </li>
         <li className="breadcrumb-item active" aria-current="page">
-          My Listings
+          My Blog
         </li>
       </ol>
     </nav>
+  <div className="">
+
+  <Link className="btn-gray" to="/dashboard/my-blog/add"><i className="fas fa-plus mr-2"></i>Add Blog</Link>
+  </div>
   </div>
   {/* start page main wrapper */}
   <div id="main-wrapper">
@@ -82,16 +87,18 @@ export const MyListings = () => {
       <div className="col-md-12">
         <div className="card card-white mb-5">
           <div className="card-heading clearfix border-bottom mb-4">
-            <h4 className="card-title">Active Listings</h4>
+            <h4 className="card-title">Active Blogs</h4>
           </div>
           <div className="card-body">
             <ul className="list-unstyled">
-            {!items && <CardPreLoader Length={6} mode="right" className='margin-30px-bottom'/>}
-              {items && items.length != 0 ? items.map(({_idItem , nameType, img , creatAt , nameItem , nameCategorie}) => (
-                <li key={_idItem} className="position-relative booking">
+            {!items && <CardPreLoader Length={6} mode="right" className='margin-30px-bottom'/>}	
+
+	
+              {items && items.length != 0 ? items.map(({_idBlog , title, img  , likeCounte , createAt}) => (
+                <li key={_idBlog} className="position-relative booking">
                 <div className="media align-items-center">
                   <div className="mr-4">
-                    <Link to={`/listing/listingDetails/${_idItem}`}>
+                    <Link to={`/blog/${_idBlog}`}>
                     <img
                     style={{height: "124px"}}
                     className="rounded"
@@ -102,25 +109,24 @@ export const MyListings = () => {
                   </div>
                   <div className="media-body">
                     <div className="star">
-                      {nameCategorie}
+                      {createAt}
                     </div>
                     <h5 className="mb-1 mt-2">
-                      <Link to={`/listing/listingDetails/${_idItem}`} className="text-extra-dark-gray">
-                        {nameItem}
+                      <Link to={`/blog/${_idBlog}`} className="text-extra-dark-gray">
+                        {title}
                       </Link>
                     </h5>
-                    <span className="d-block mb-4">{nameType}</span>
                     <Link to="#" className="text-primary">
-                      {creatAt}
+                      like : {likeCounte}
                     </Link>
                   </div>
                 </div>
                 <div className="buttons-to-right">
-                  <Link to={_idItem} className="btn-gray">
+                  <Link to={_idBlog} className="btn-gray">
                     <i className="far fa-edit mr-2" />
                     Edit
                   </Link>
-                  <Link to="" onClick={() => onHandeldeleteItem(_idItem)} className="btn-gray mr-2 ml-2">
+                  <Link to="" onClick={() => onHandeldeleteItem(_idBlog)} className="btn-gray mr-2 ml-2">
                     <i className="far fa-times-circle mr-2" /> Delete
                   </Link>
                 </div>

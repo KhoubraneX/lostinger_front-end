@@ -215,6 +215,7 @@ header {
     content: none
 }
 
+
 .attr-nav > ul > li.dropdown:hover ul.dropdown-menu {
     left: 0;
     top: 45px;
@@ -889,4 +890,16 @@ header {
     .header-style .navbar-toggler {
         top: -48px
     }
+}
+
+.attr-nav > ul > li.dropdown:hover ul.dropdown-menu {
+    margin-top: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+.attr-nav > ul > li.dropdown:hover ul.dropdown-menu {
+    display : inline-block !important;
+    position: absolute;
+    background: white;
 }

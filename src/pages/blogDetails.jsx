@@ -3,6 +3,7 @@ import PageTitleSection from "../components/pageTitleSection";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../api/axios";
 import { PreLoaderMain } from "../components/preLoaderPage";
+import he from 'he';
 
 export default function BlogDetails() {
   const [blogDetails, setBlogDetails] = useState(null);
@@ -70,13 +71,11 @@ export default function BlogDetails() {
                   <div className="content">
                     <div className="blog-list-simple-text post-meta margin-20px-bottom">
                       <div className="post-title">
-                        <h5>{title}</h5>
+                        <h2>{title}</h2>
                       </div>
                     </div>
                     <div className="margin-30px-bottom">
-                      <p className="margin-30px-bottom">
-                        {description}
-                      </p>
+                      <div className="margin-30px-bottom" dangerouslySetInnerHTML={{ __html: he.decode(description) }}></div>
                     </div>
                     <div className="share-post">
                       <span>Share Post</span>
@@ -259,8 +258,8 @@ export default function BlogDetails() {
                   <div className="widget-title margin-35px-bottom">
                     <h3>Recent Posts</h3>
                   </div>
-                  {blogsSimilar && blogsSimilar.map(({img , _idBlog , title , createAt}) => (
-                    <div key={_idBlog} className="media margin-20px-bottom">
+                  {blogsSimilar && blogsSimilar.length !==0 ?  blogsSimilar.slice(0 , 6).map(({img , _idBlog , title , createAt}) => (
+                    <div key={_idBlog} className="media margin-20px-bottom" >
                     <img style={{ height: "70px"}}
                       src={img}
                       className="mr-3 border-radius-4"
@@ -277,7 +276,7 @@ export default function BlogDetails() {
                       </span>
                     </div>
                   </div>
-                  ))}
+                  )) : <p className="bolder text-center">No result found</p>}
                 </div>
               </div>
             </div>

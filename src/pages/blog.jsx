@@ -52,7 +52,7 @@ export default function Blog() {
           <div className="col-sm-12">
             {/* start pager  */}
             <div className="text-center margin-60px-top sm-margin-40px-top">
-              <Pagination />
+              {/* <Pagination /> */}
             </div>
             {/* end pager */}
           </div>

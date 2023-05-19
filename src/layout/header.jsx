@@ -2,27 +2,47 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useUserContext } from "../utils/contexts/UserContext";
 import { logout } from "../utils/logout";
+import React, { useRef, useEffect } from "react";
+
+function useOutsideAlerter(ref, callback) {
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        callback();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref, callback]);
+}
 
 export default function Header() {
+  let user = useUserContext();
 
-  let user = useUserContext()
-
-  const [menuIsOpen, setmenuIsOpen] = useState(false);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [submenuIsOpen, setSubmenuIsOpen] = useState(false);
 
+  const navbarRef = useRef(null);
 
-  let handelOpenmenu = () => {
-    setmenuIsOpen(!menuIsOpen)
-  }
+  const handleOpenMenu = () => {
+    setMenuIsOpen(!menuIsOpen);
+  };
 
-  let handelOpensubmenu = () => {
-    setSubmenuIsOpen(!submenuIsOpen)
-  }
+  const handleOpenSubmenu = () => {
+    setSubmenuIsOpen(!submenuIsOpen);
+  };
+
+  const handleCloseMenu = () => {
+    setMenuIsOpen(false);
+  };
+
+  useOutsideAlerter(navbarRef, handleCloseMenu);
 
   return (
     <>
-
-
       {/* start header section */}
       <header>
         <div className="navbar-default">
@@ -45,11 +65,27 @@ export default function Header() {
                       </Link>
                       {/* end logo */}
                     </div>
-                    <div className={`navbar-toggler ${menuIsOpen ? "menu-opened" : ""}`} onClick={handelOpenmenu} />
+                    <div
+                      className={`navbar-toggler ${
+                        menuIsOpen ? "menu-opened" : ""
+                      }`}
+                      onClick={handleOpenMenu}
+                    />
                     {/* start menu area */}
-                    <ul className={`navbar-nav ml-auto ${menuIsOpen ? "open" : ""}`} id="nav">
+                    <ul
+                      ref={navbarRef}
+                      className={`navbar-nav ml-auto ${
+                        menuIsOpen ? "open" : ""
+                      }`}
+                      id="nav"
+                    >
                       <li className={`has-sub ${submenuIsOpen ? "active" : ""}`}>
-                        <span className={`submenu-button ${submenuIsOpen ? "submenu-opened" : ""}`} onClick={handelOpensubmenu} />
+                        <span
+                          className={`submenu-button ${
+                            submenuIsOpen ? "submenu-opened" : ""
+                          }`}
+                          onClick={handleOpenSubmenu}
+                        />
                         <Link>Pages</Link>
                         <ul className={`${submenuIsOpen ? "open" : ""}`}>
                           <li>
@@ -57,62 +93,76 @@ export default function Header() {
                           </li>
                         </ul>
                       </li>
-                      <li >
+                      <li>
                         <Link to="/listing">Listing</Link>
                       </li>
                       <li>
-                        <Link to="Blog">Blog</Link>
+                        <Link to="blog">Blog</Link>
                       </li>
-                      {!user && <li>
-                        <Link to="registration">Register</Link>
-                      </li>}
-                      {!user && <li>
-                        <Link to="login">Login</Link>
-                      </li>}
+                      {!user && (
+                        <>
+                          <li>
+                            <Link to="registration">Register</Link>
+                          </li>
+                          <li>
+                            <Link to="login">Login</Link>
+                          </li>
+                        </>
+                      )}
                     </ul>
                     {/* end menu area */}
                     {/* start attribute navigation */}
                     <div className="attr-nav sm-no-margin sm-margin-65px-right xs-margin-55px-right ml-auto">
-                      {user && <ul className="search">
-                        <li className="dropdown user-dropdown">
-                          <Link
-                            to="/dashboard/my-profile"
-                            className="dropdown-toggle d-flex align-items-center"
-                            data-toggle="dropdown"
-                            role="button"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <img style={{height: "28px"}}
-                              src={require("../assets/img/avatars/user.png")}
-                              alt=""
-                              className="rounded-circle"
-                            />
-                            <p className="m-0 ml-2">{user.name}</p>
-                          </Link>
-                          <ul className="dropdown-menu show">
-                            <li>
-                              <Link to="/dashboard/my-profile">Profile</Link>
-                            </li>
-                            <li>
-                              <Link to="/dashboard/my-listing">my listing</Link>
-                            </li>
-                            <li>
-                              <Link to="/dashboard/message">
-                                <span className="badge float-right badge-danger">42</span>Messages
-                              </Link>
-                            </li>
-                            <li role="separator" className="divider" />
-                            <li>
-                              <Link to="" onClick={logout}>Log Out</Link>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>}
+                      {user && (
+                        <ul className="search">
+                          <li className="dropdown user-dropdown">
+                            <Link
+                              to="/dashboard/my-profile"
+                              className="dropdown-toggle d-flex align-items-center"
+                              data-toggle="dropdown"
+                              role="button"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              <img
+                                style={{ height: "28px" }}
+                                src={require("../assets/img/avatars/user.png")}
+                                alt=""
+                                className="rounded-circle"
+                              />
+                              <p className="m-0 ml-2">{user.name}</p>
+                            </Link>
+                            <ul className="dropdown-menu show">
+                              <li>
+                                <Link to="/dashboard/my-profile">Profile</Link>
+                              </li>
+                              <li>
+                                <Link to="/dashboard/my-listing">my listing</Link>
+                              </li>
+                              {user.role === "admin" && (
+                                <li>
+                                  <Link to="dashboard/my-blog">blog</Link>
+                                </li>
+                              )}
+                              <li>
+                                <Link to="/dashboard/message">
+                                  <span className="badge float-right badge-danger"></span>Messages
+                                </Link>
+                              </li>
+                              <li role="separator" className="divider" />
+                              <li>
+                                <Link to="" onClick={logout}>
+                                  Log Out
+                                </Link>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      )}
                       <ul className="top-nav-area">
                         <li className="dropdown sm-no-margin-right">
                           <Link
-                            to={user ? "addListing" : "login"}
+                            to={user ? "add-listing" : "login"}
                             className="butn listi md-padding-15px-lr sm-no-padding"
                           >
                             <i className="fas fa-plus-circle font-size22 margin-5px-right sm-no-margin-right vertical-align-middle" />{" "}

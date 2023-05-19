@@ -1,6 +1,11 @@
 import PageTitleSection from "../components/pageTitleSection";
+import showToastMessage from '../utils/toast';
 
 export default function Conatct() {
+
+  function handelClick() {
+    showToastMessage("info" , "Thank you for submitting this. This is just a demo.")
+  }
     return (
         <>
         <PageTitleSection hrefText="Contact" />
@@ -21,15 +26,15 @@ export default function Conatct() {
               <ul className="list-style-1 no-margin">
                 <li>
                   <span className="d-inline-block vertical-align-top font-size18"><i className="fas fa-map-marker-alt text-theme-color" /></span>
-                  <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">74 Guild Street 542B, Great North Town MT.</span>
+                  <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">-</span>
                 </li>
                 <li>
                   <span className="d-inline-block vertical-align-top font-size18"><i className="fas fa-phone text-theme-color" /></span>
-                  <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">4355 6567 789</span>
+                  <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">-</span>
                 </li>
                 <li>
                   <span className="d-inline-block vertical-align-top font-size18"><i className="fas fa-envelope text-theme-color" /></span>
-                  <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">example@yourname.com</span>
+                  <span className="d-inline-block width-65 sm-width-85 vertical-align-top padding-10px-left">-</span>
                 </li>
               </ul>
             </div>
@@ -62,7 +67,7 @@ export default function Conatct() {
               <textarea className="form-control" id="exampleFormControlTextarea1" rows={5} placeholder="Message" defaultValue={""} />
             </div>
             <div className="col-md-12">
-              <button type="submit" className="butn"><span>submit message</span></button>
+              <button onClick={handelClick} type="submit" className="butn"><span>submit message</span></button>
             </div>
           </div>
         </div>

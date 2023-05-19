@@ -970,15 +970,7 @@ blockquote small:before {
     border-radius: 4px
 }
 
-.booking:hover .buttons-to-right .btn-gray {
-    opacity: 1;
-    transition: .3s
-}
 
-.buttons-to-right .btn-gray {
-    opacity: 0;
-    transition: .3s
-}
 
 .btn-gray:hover {
     background-color: #36a3f5;

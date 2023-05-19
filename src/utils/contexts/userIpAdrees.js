@@ -28,7 +28,6 @@ export default function UserIpProvider({ children }) {
 
 return (
     <>
-    {!userIp && <PreLoaderMain/>}
     {userIp && <UserIpContext.Provider value={userIp}>
         { children }
     </UserIpContext.Provider>}

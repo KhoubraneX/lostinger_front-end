@@ -374,7 +374,7 @@ input[type=radio] {
 }
 
 input.disabled {
-	background-color: #eee;
+	background-color: #eee !important;
 	cursor: not-allowed;
 }
 

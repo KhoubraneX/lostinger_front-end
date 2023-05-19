@@ -16,7 +16,7 @@ export default function ListingGrid({ items }) {
             <h4>No results found</h4>
           </div>}
         </div>
-        {items && items.length !== 0 && <Pagination />}
+        {/* {items && items.length !== 0 && <Pagination />} */}
       </div>
     </>
   )
