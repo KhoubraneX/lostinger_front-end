@@ -3,7 +3,7 @@ import axios from "../api/axios"
 function refreshToken() {
     const fetchData = async () => {
         try {
-            let { data } = await axios.post('/space/api/auth/refresh', JSON.stringify({
+            let { data } = await axios.post('/api/auth/refresh', JSON.stringify({
                 token: localStorage.getItem("refresh_token")
             })
             );
@@ -22,7 +22,7 @@ function refreshToken() {
 
 async function checkToken(token = localStorage.jwt) {
     try {
-        await axios.post("http://localhost/space/api/auth/check", JSON.stringify({ token: token }))
+        await axios.post("/api/auth/check", JSON.stringify({ token: token }))
         return true
     } catch (error) {
         refreshToken()

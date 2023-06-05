@@ -116,8 +116,7 @@ export default function Header() {
                       {user && (
                         <ul className="search">
                           <li className="dropdown user-dropdown">
-                            <Link
-                              to="/dashboard/my-profile"
+                            <div
                               className="dropdown-toggle d-flex align-items-center"
                               data-toggle="dropdown"
                               role="button"
@@ -131,7 +130,7 @@ export default function Header() {
                                 className="rounded-circle"
                               />
                               <p className="m-0 ml-2">{user.name}</p>
-                            </Link>
+                            </div>
                             <ul className="dropdown-menu show">
                               <li>
                                 <Link to="/dashboard/my-profile">Profile</Link>

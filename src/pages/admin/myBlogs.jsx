@@ -16,7 +16,7 @@ export const MyBlogs = () => {
     
     let fetchItems = async () => {
       try {
-        let { data } = await axios.get("http://localhost/space/api/blogs" , {
+        let { data } = await axios.get("/api/blogs" , {
           headers: { 
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
           },
@@ -44,7 +44,7 @@ export const MyBlogs = () => {
     let deleteItem = async () => {
       checkToken(localStorage.jwt)
       try {
-        let { data } = await axios.delete(`http://localhost/space/api/blogs/${id}` , {
+        let { data } = await axios.delete(`/api/blogs/${id}` , {
           headers: { 
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
           },

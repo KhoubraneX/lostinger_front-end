@@ -17,7 +17,7 @@ export default function ItemsNear() {
         let fetchItems = async () => {
             // fet location by ip address
             try {
-                let { data } = await axios.get(`/space/api/items/search?city=${ipAddress.city}`);
+                let { data } = await axios.get(`/api/items/search?city=${ipAddress.city}`);
                 if (isMounted) {
                     setItemNear(data);
                 }

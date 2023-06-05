@@ -52,9 +52,8 @@ const Profile = () => {
     let controller = new AbortController()
 
     let fetchItems = async () => {
-      checkToken(localStorage.jwt)
       try {
-        let { data } = await axios.get("/space/api/auth/userDt", {
+        let { data } = await axios.get("/api/auth/userDt", {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
           },
@@ -164,7 +163,7 @@ const Profile = () => {
       async function sendRequest() {
         setIsLoad(true)
         try {
-          const response = await axios.patch("/space/api/auth/updateUser", JSON.stringify({
+          const response = await axios.patch("/api/auth/updateUser", JSON.stringify({
             name: name.value,
             phone: phone.value
           }) , {
@@ -205,7 +204,7 @@ const Profile = () => {
       async function sendRequest() {
         setIsLoadPassword(true)
         try {
-          const response = await axios.patch("/space/api/auth/updateUser", JSON.stringify({
+          const response = await axios.patch("/api/auth/updateUser", JSON.stringify({
             oldPassword: oldPassword.value,
             newPassword: password.value
           }) , {

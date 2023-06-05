@@ -3,12 +3,15 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LocationSearchInput from "./map";
 import { useItemDtContext } from "../utils/contexts/ItemDetailsContext";
+import Spinner from "./spinner";
 
 
 function Search() {
     const queryParams = new URLSearchParams();
 
     let dtData = useItemDtContext()
+
+    const [isLoad, setIsLoad] = useState(false)
 
     let Navigate = useNavigate()
     const [searchName, setSearchName] = useState("")
@@ -30,8 +33,9 @@ function Search() {
 
     const handelFormSearch = (event) => {
         event.preventDefault()
+        setIsLoad(true)
         if (searchName) {
-            queryParams.append('name', searchName);
+                queryParams.append('name', searchName);
         }
         if (searchLocation) {
             queryParams.append('location', searchLocation);
@@ -39,8 +43,10 @@ function Search() {
         if (searchCategory) {
             queryParams.append('category', searchCategory);
         }
-
-        Navigate(`/listing?${queryParams.toString()}`);
+        setTimeout(() => {
+            Navigate(`/listing?${queryParams.toString()}`);
+            setIsLoad(false)
+        } , 200)
     }
 
     return (
@@ -62,7 +68,7 @@ function Search() {
                         </select>
                     </div>
                     <div className="col-md-2 my-1">
-                        <button type="submit" className="butn btn-block">Search</button>
+                        <button type="submit" className="butn btn-block">{!isLoad ? "Search" : <Spinner />}</button>
                     </div>
                 </div>
             </form>

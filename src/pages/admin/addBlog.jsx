@@ -50,7 +50,7 @@ const AddBlog = () => {
       data.img = galleryData.dataImg.value["data_url"]
     }
 
-    axios.post("/space/api/blogs", data , {
+    axios.post("/api/blogs", data , {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("jwt")}`
       }

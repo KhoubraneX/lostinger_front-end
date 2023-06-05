@@ -16,7 +16,7 @@ export function ItemDtProvider({ children }) {
         
         let fetchItems = async () => {
           try {
-          let { data } = await axios.get("/space/api/itemDetails");
+          let { data } = await axios.get("/api/itemDetails");
           isMounted && setItemDetails(data)
           } catch (error) {
             console.log(error);

@@ -11,7 +11,7 @@ export default function FilterBrand({onHandleBrandChange , searchValueByBrand })
 
         let fetchItems = async () => {
             try {
-                let { data } = await axios.get("/space/api/itemDetails/usedBrand");
+                let { data } = await axios.get("/api/itemDetails/usedBrand");
                 isMounted && setUsedBrand(data)
             } catch (error) {
                 console.log("error used brand");

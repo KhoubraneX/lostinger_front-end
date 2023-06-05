@@ -42,8 +42,8 @@ export function UserProvider({ children }) {
             currentUser = decode;
             if (isMounted) {
               setUser(currentUser);
-              ChatLogin(currentUser.sub);
               initializeCometChat();
+              ChatLogin(currentUser.sub);
             }
           } else {
             setUser(false);

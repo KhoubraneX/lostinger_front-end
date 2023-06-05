@@ -16,7 +16,7 @@ export default function BlogDetails() {
       "_idBlog": idBlog
     }
     try {
-      let { data } = await axios.post("/space/api/blogs?target=similarBlogs", JSON.stringify(dataSend))
+      let { data } = await axios.post("/api/blogs?target=similarBlogs", JSON.stringify(dataSend))
       setBlogsSimilar(data);
     } catch (error) {
       console.log(error);
@@ -26,12 +26,13 @@ export default function BlogDetails() {
 
   // get item details
   useLayoutEffect(() => {
+    window.scrollTo(0, 0);
     let isMounted = true;
     let controller = new AbortController();
 
     let fetchItems = async () => {
       try {
-        let { data } = await axios.get(`/space/api/blogs/${id}`);
+        let { data } = await axios.get(`/api/blogs/${id}`);
         if (isMounted) {
           setBlogDetails(data);
           await fetchSimilarBlogs(data["_idBlog"])
@@ -48,11 +49,22 @@ export default function BlogDetails() {
       isMounted = false;
       controller.abort();
     };
-  }, []);
+  }, [navigate , id]);
 
   let {
     _idBlog , img , title , description , likeCounte
   } = blogDetails ?? "";
+
+  // Find the index of the current blog in the blogsSimilar array
+  const currentIndex = blogsSimilar ? blogsSimilar.findIndex(blog => blog._idBlog === _idBlog) : -1;
+  const prevIndex = currentIndex - 1;
+  const nextIndex = currentIndex + 1;
+
+  // Get the previous and next blog details based on the index
+  const prevBlog = blogsSimilar && prevIndex >= 0 ? blogsSimilar[prevIndex] : null;
+  const nextBlog = blogsSimilar && nextIndex < blogsSimilar.length ? blogsSimilar[nextIndex] : null;
+
+
   return (
     <>
     {blogDetails === null && <PreLoaderMain />}
@@ -114,11 +126,12 @@ export default function BlogDetails() {
                 <div className="text-center margin-30px-bottom">
                   <div className="pagination text-small text-uppercase text-extra-dark-gray">
                     <ul>
-                      <li className="active">
-                        <a href=";">Prev</a>
-                      </li>
                       <li>
-                        <a href="#!">Next</a>
+                        {nextBlog && (
+                          <Link to={`/blog/${nextBlog._idBlog}`}>
+                            Next
+                          </Link>
+                        )}
                       </li>
                     </ul>
                   </div>
@@ -267,8 +280,8 @@ export default function BlogDetails() {
                     />
                     <div className="media-body">
                       <h5 className="no-margin-top margin-5px-bottom font-size17">
-                        <Link to={`/blogDetails/${_idBlog}`} className="text-extra-dark-gray">
-                          {title}
+                        <Link to={`/blog/${_idBlog}`} className="text-extra-dark-gray">
+                          {title.slice(0 , 23)}...
                         </Link>
                       </h5>
                       <span className="font-size14 text-theme-color">

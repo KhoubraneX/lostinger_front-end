@@ -29,6 +29,8 @@ import { ToastContainer } from 'react-toastify';
 import { MyBlogs } from './pages/admin/myBlogs';
 import AddBlog from './pages/admin/addBlog';
 import EditBlog from './pages/admin/editBlog';
+import ScrollToTop from './utils/ScrollToTop';
+import ForgotPassword from './pages/forgotPassword';
 
 
 
@@ -52,7 +54,7 @@ function App() {
         <Header />
         {isLoading && <PreLoaderMain />}
         <Routes>
-
+        <Route element={<ScrollToTop />}>
           <Route path='/' element={<Home />} />
           <Route path='/home' element={<Home />} />
 
@@ -63,20 +65,26 @@ function App() {
             <Route path='/registration' element={<Register />} />
             <Route path='/signup' element={<Register />} />
           </Route>
+
           <Route element={<ProtectedRoute />}>
             <Route path='/add-listing' element={<ItemDtProvider>
               <AddListing />
             </ItemDtProvider>} />
           </Route>
+
           <Route path='/listing' element={<ItemDtProvider>
             <Listing />
-          </ItemDtProvider>} ></Route>
+          </ItemDtProvider>} >
+          </Route>
+
           <Route path='/listing/:id' element={<ListingDetails />} />
           <Route path='/blog' element={<Blog />} />
           <Route path='/blog/:id' element={<BlogDetails />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='*' element={<PageNotFound />} />
           <Route path='not-found' element={<PageNotFound />} />
+          <Route path='forgot-password' element={<ForgotPassword />} />
+
           <Route element={<ProtectedRoute />}>
             <Route path='/dashboard' element={<ItemDtProvider><Dashboard /></ItemDtProvider>} >
               <Route path='' element={<Navigate to="my-listing" />} />
@@ -87,10 +95,11 @@ function App() {
                   <Route path='/dashboard/my-blog/add' element={<AddBlog />} />
                   <Route path='/dashboard/my-blog/:id' element={<EditBlog />} />
               </Route>
-
               <Route path='/dashboard/my-listing/:id' element={<EditListing />} />
               <Route path='/dashboard/my-profile' element={<Profile />} />
             </Route>
+          </Route>
+          
           </Route>
         </Routes>
       </UserProvider>

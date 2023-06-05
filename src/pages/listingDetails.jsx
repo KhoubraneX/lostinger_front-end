@@ -26,7 +26,7 @@ export default function ListingDetails() {
       "nameCategorie": categorie
     }
     try {
-      let { data } = await axios.post("/space/api/items?target=similarItem", JSON.stringify(dataSend))
+      let { data } = await axios.post("/api/items?target=similarItem", JSON.stringify(dataSend))
       setItemSimilar(data);
     } catch (error) {
       console.log(error);
@@ -41,7 +41,7 @@ export default function ListingDetails() {
 
     let fetchItems = async () => {
       try {
-        let { data } = await axios.get(`/space/api/items/${id}`);
+        let { data } = await axios.get(`/api/items/${id}`);
         if (isMounted) {
           setItemDetails(data);
           await fetchSimilarItem(data["_idItem"], data["nameCategorie"])
@@ -58,7 +58,7 @@ export default function ListingDetails() {
       isMounted = false;
       controller.abort();
     };
-  }, []);
+  }, [Navigate , id]);
 
   let handelSendMessage = (e) => {
     e.preventDefault()

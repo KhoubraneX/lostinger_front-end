@@ -98,7 +98,7 @@ export default function Register() {
       async function sendRequest() {
         setIsLoad(true)
         try {
-          const response = await axios.post("/space/api/auth/register", JSON.stringify({
+          const response = await axios.post("/api/auth/register", JSON.stringify({
             name: name.value,
             email: email.value,
             password: password.value

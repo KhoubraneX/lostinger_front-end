@@ -180,7 +180,7 @@ export default function Form() {
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: '/space/api/items',
+                url: '/api/items',
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem("jwt")
                 },
@@ -192,7 +192,7 @@ export default function Form() {
                     setTimeout(() => {
                         setLoadStatus(false)
                         showToastMessage("success" , "added successfully")
-                        Navigate(`/listing/listingDetails/${data.id}`)
+                        Navigate(`/listing/${data.id}`)
                     }, 100)
                 })
                 .catch(({response}) => {

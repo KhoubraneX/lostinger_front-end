@@ -450,6 +450,10 @@ input.disabled {
     margin-right: 10px
 }
 
+.attr-nav ul.search {
+    display: flex;
+}
+
 .line-banner .searchs ul li a {
     display: inline-block;
     padding: 3px 20px;

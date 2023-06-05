@@ -25,7 +25,7 @@ export default function Listing() {
     
     let fetchItems = async () => {
       try {
-        let { data } = await axios.get("/space/api/items");
+        let { data } = await axios.get("/api/items");
         if (isMounted) {
           setItems(data)
           setFilteredData(data);

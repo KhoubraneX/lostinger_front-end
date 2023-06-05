@@ -64,7 +64,7 @@ export default function Login() {
       async function sendRequest() {
         setIsLoad(true)
         try {
-          const response = await axios.post("/space/api/auth/login", JSON.stringify({
+          const response = await axios.post("/api/auth/login", JSON.stringify({
             email: email.value,
             password: password.value
           }));
@@ -122,7 +122,7 @@ export default function Login() {
                       </div>
                     </div>
                     <div className="col-sm-6 text-left text-sm-right">
-                      <a href="#!">Forgot password?</a>
+                      <Link to="/forgot-password">Forgot password?</Link>
                     </div>
                   </div>
                   <div className="margin-25px-top">

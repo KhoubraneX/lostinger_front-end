@@ -16,7 +16,7 @@ export default function Blog() {
 
     let fetchItems = async () => {
       try {
-        let { data } = await axios.get("/space/api/blogs");
+        let { data } = await axios.get("/api/blogs");
         if (isMounted) {
           setBlogs(data)
         }

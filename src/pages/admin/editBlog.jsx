@@ -30,7 +30,7 @@ const EditBlog = () => {
 
     let fetchItems = async () => {
       try {
-        let { data } = await axios.get(`http://localhost/space/api/blogs/${id}`, {
+        let { data } = await axios.get(`/api/blogs/${id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
           },
@@ -85,7 +85,7 @@ const EditBlog = () => {
       }
     }
 
-    axios.patch(`/space/api/blogs/${id}`, data , {
+    axios.patch(`/api/blogs/${id}`, data , {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("jwt")}`
       }

@@ -47,7 +47,7 @@ const EditListing = () => {
 
     let fetchItems = async () => {
       try {
-        let { data } = await axios.get(`http://localhost/space/api/items/${id}?target=editMyItem`, {
+        let { data } = await axios.get(`/api/items/${id}?target=editMyItem`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
           },
@@ -126,7 +126,7 @@ const EditListing = () => {
       let config = {
         method: 'patch',
         maxBodyLength: Infinity,
-        url: `/space/api/items/${id}`,
+        url: `/api/items/${id}`,
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem("jwt")
         },
@@ -139,7 +139,7 @@ const EditListing = () => {
           setTimeout(() => {
             if (response.status === 200) {
               showToastMessage("success", response.data.message)
-              Navigate(`/listing/listingDetails/${response.data.id}`)
+              Navigate(`/dashboard/my-listing`)
             } else if (response.status === 204) {
               showToastMessage("info", "No changes made")
             }

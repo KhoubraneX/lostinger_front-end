@@ -16,7 +16,7 @@ export const MyListings = () => {
     
     let fetchItems = async () => {
       try {
-        let { data } = await axios.get("http://localhost/space/api/items?target=myItems" , {
+        let { data } = await axios.get("/api/items?target=myItems" , {
           headers: { 
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
           },
@@ -44,7 +44,7 @@ export const MyListings = () => {
     let deleteItem = async () => {
       checkToken(localStorage.jwt)
       try {
-        let { data } = await axios.delete(`http://localhost/space/api/items/${id}` , {
+        let { data } = await axios.delete(`/api/items/${id}` , {
           headers: { 
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
           },
